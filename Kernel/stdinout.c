@@ -1,6 +1,7 @@
 #include <stdinout.h>
 #include <keyboard.h>
 #include <videoDriver.h>
+#include <syscallDispatcher.h>
 
 char conversionArray[]= { 
 	[0x01] = -1,   // escape no tiene carácter imprimible
@@ -65,7 +66,10 @@ char conversionArray[]= {
 
 //funcion para obtener el ultimo caracter del buffer de entrada devuelve -1 si 
 char getChar(){
-    char letter=getKey();
+    char letter;
+    do{
+        letter=getKey();
+    }while(letter==-1 || conversionArray[letter]==-1);
     return (isUpperCase() && letter!=-1 && conversionArray[letter]<='z' && conversionArray[letter]>='a')?conversionArray[letter]-('a'-'A'):(letter!=-1)?conversionArray[letter]:letter;
 }
 
@@ -74,7 +78,13 @@ void putChar(char character){
 }
 
 //funcion para imprimir un string
-void printf(char * string);
+//terminara siendo la syscall write
+void write(FDS fd, char * string, int len);
 
 //funcion para tomar un string de hasta longitud len de entrada estandar
-char * getString(int len);
+//terminara siendo la syscall read
+void read(FDS fd, char * buffer,int len){
+    for(int i=0; i<len; i++){
+        buffer[i]=getChar();
+    }
+}

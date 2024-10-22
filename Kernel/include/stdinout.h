@@ -5,7 +5,7 @@ char getChar();
 void putChar(char character);
 
 //funcion para imprimir un string
-void printf(char * string);
+void write(FDS fd, char * string, int len);
 
 //funcion para tomar un string de hasta longitud len de entrada estandar
-char * getString(int len);
+ void read(FDS fd, char * buffer,int len);

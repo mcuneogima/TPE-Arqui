@@ -20,6 +20,11 @@ void syscallDispatcher(uint64_t rax, ...){
 void sys_write(FDS fd, const char * buffer, size_t count){
     switch (fd)
     {
+        case STDOUT:
 
+        break;
+        case STDERR:
+
+        break;
     }
 }

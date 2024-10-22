@@ -2,8 +2,9 @@
 #include <stdlib.h>
 
 typedef enum{
+    STDIN = 0,
     STDOUT = 1,
-    STDERR
+    STDERR = 2
 } FDS;
 
 
