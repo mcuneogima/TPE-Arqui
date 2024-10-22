@@ -2,7 +2,7 @@ GLOBAL write
 GLOBAL read
 GLOBAL sleep
 
-section .test
+section .text
 
 write:
     mov rax, 1
