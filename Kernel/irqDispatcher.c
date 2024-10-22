@@ -1,5 +1,8 @@
 #include <time.h>
 #include <stdint.h>
+#include <keyboard.h>
+#include <lib.h>
+#include <videoDriver.h>
 
 
 static void int_20();
@@ -19,10 +22,8 @@ void irqDispatcher(uint64_t irq) {
 
 void int_20() {
 	timer_handler();
-	//check_5seconds();
 }
 void int_21(){
 	char character = returnKBOutputInterrupt();
-	//bufferLoader(character);
-	//showChar();
+	bufferLoader(character);
 }

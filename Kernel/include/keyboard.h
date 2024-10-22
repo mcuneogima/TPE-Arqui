@@ -1,2 +1,3 @@
 void bufferLoader(char character);
-void showChar();
+int isUpperCase();
+char getKey();

@@ -3,6 +3,9 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
+#include <stdinout.h>
+#include <videoDriver.h>
+#include <idtLoader.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -82,7 +85,7 @@ void * initializeKernelBinary()
 
 int main()
 {	
-	ncPrint("[Kernel Main]");
+	/*ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");
 	ncPrintHex((uint64_t)sampleCodeModuleAddress);
@@ -100,5 +103,21 @@ int main()
 	ncNewline();
 
 	ncPrint("[Finished]");
+	*/
+	/*for(int i=0; i<200; i++){
+		while(getChar()!=-1){
+
+		}
+		putPixel(0x00ff0000, 20+i, 20);
+
+	}*/
+	load_idt();
+	while(1){
+		if(getChar()=='a'){
+			putPixel(0xffffffff,20,20);
+		}
+	}
+	// imprimir intro y uso de comando help
+	//arrancar terminal
 	return 0;
 }

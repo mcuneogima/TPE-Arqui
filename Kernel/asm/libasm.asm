@@ -34,13 +34,19 @@ cpuVendor:
 
 returnKBOutputInterrupt:
 	push rbp
-	mov rbp,rsp
+	mov rbp, rsp
 
-	in al, 60h
+    mov rax, 0
+
+.cicle:
+	in al, 64h
+    and al, 0x01
+    je .cicle
+    in al, 60h
 
 	mov rsp, rbp
 	pop rbp
-	ret
+    ret
 
 
 getSeconds:
