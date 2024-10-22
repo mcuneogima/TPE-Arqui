@@ -142,7 +142,12 @@ _irq05Handler:
 
 _irq60Handler:
 	pushState
-
+	
+	mov r8, rcx
+	mov rcx, rdx
+	mov rdx, rsi
+	mov rsi, rdi
+	mov rdi, rax
 	call syscallDispatcher
 
 	popState

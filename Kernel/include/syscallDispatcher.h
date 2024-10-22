@@ -9,4 +9,5 @@ typedef enum{
 
 
 void syscallDispatcher(uint64_t rax, ...);
-void  sys_write(FDS fd, const char *buf, size_t count);
+void  sys_write(FDS fd, const char *buf, size_t count, size_t color);
+void sys_read(FDS fd, char * buffer, size_t count);
