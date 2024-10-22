@@ -1,3 +1,4 @@
+#include <syscallDispatcher.h>
 //funcion para obtener el ultimo caracter del buffer de entrada
 char getChar();
 
