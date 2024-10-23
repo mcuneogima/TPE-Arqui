@@ -1,4 +1,5 @@
 #include <time.h>
+#include <interrupts.h>
 #include <naiveConsole.h>
 
 static unsigned long ticks = 0;
@@ -20,5 +21,7 @@ int seconds_elapsed() {
 //termina siendo la syscall sleep
 void sleep(int seconds){
 	int current_seconds=ticks/18;
-	while(current_seconds+seconds!=ticks/18);
+	while(current_seconds+seconds!=ticks/18){
+		_hlt();
+	}
 }

@@ -78,7 +78,7 @@ void putChar(char character){
 
 //funcion para imprimir un string
 //terminara siendo la syscall write
-void write(char * string, int len, int color);
+void write(char * string, int len, int color, int background);
 
 //funcion para tomar un string de hasta longitud len de entrada estandar
 //terminara siendo la syscall read
