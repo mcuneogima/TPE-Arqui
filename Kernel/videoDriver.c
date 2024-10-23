@@ -1,5 +1,6 @@
 #include <videoDriver.h>
 #include <stdint.h>
+#include <font.h>
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -49,4 +50,28 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset]     =  (hexColor) & 0xFF;
     framebuffer[offset+1]   =  (hexColor >> 8) & 0xFF; 
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF;
+}
+
+void drawChar(uint8_t *characterBitmap, uint64_t x, uint64_t y, uint32_t fontColor, uint32_t backgroundColor) {
+	// Recorre cada fila del carácter
+    for (int row = 0; row < getFontHeight() ; row++) {  // Tomando la altura del archivo font.c  (16 píxeles)
+        uint8_t bits = characterBitmap[row];  // Tomamos una fila del mapa de bits
+        for (int col = 0; col < getFontWidth() ; col++) {  // Tomando el ancho del archivo font.c (ancho de 8 píxeles)
+			/* Si el bit esta encendido, dibujamos un pixel del color de la fuente,
+			** si el bit esta apagado, dibujamos el color de fondo*/
+			putPixel(bits&(1<<(getFontWidth()-col-1))?fontColor:backgroundColor, x + col, y + row);
+        }
+    }
+}
+
+void printf(const char *string, uint64_t x_char, uint64_t y_char, uint32_t fontColor, uint32_t backgroundColor) {
+	x_char *= getFontWidth();
+	y_char *= getFontHeight();
+	
+	// Imprimimos el caracter correspondiente hasta llegar al final del string (Null Terminated)
+    while (*string != 0) {
+        drawChar(getFontChar(*string), x_char, y_char, fontColor, backgroundColor);
+        x_char += getFontWidth();  // Avanzamos el cursor el ancho del pixel (8 píxeles) para el siguiente carácter
+        string++;
+    }
 }

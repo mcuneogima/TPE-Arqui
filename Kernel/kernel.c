@@ -6,6 +6,7 @@
 #include <stdinout.h>
 #include <videoDriver.h>
 #include <idtLoader.h>
+#include <font.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -113,14 +114,21 @@ int main()
 	}*/
 	load_idt();
 
+	printf("Functions Available:", 0, 0, getColor(GREEN), getColor(BLACK));
+	printf("scanf", 2, 1, getColor(GREEN), getColor(BLACK));
+	printf("printf", 2, 2, getColor(GREEN), getColor(BLACK));
+	printf("putChar", 2, 3, getColor(GREEN), getColor(BLACK));
+	printf("getChar", 2, 4, getColor(GREEN), getColor(BLACK));
+
 	((EntryPoint)sampleCodeModuleAddress)();
 
-	while(1){
-		if(getChar()=='a'){
-			putPixel(0xffffffff,20,20);
-		}
-	}
-	// imprimir intro y uso de comando help
-	//arrancar terminal
+	// while(1){
+	// 	if(getChar()=='a'){
+	// 		putPixel(0xffffffff,20,20);
+	// 	}
+	// }
+	// // imprimir intro y uso de comando help
+	// //arrancar terminal
+
 	return 0;
 }
