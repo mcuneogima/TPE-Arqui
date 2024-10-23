@@ -112,6 +112,9 @@ int main()
 
 	}*/
 	load_idt();
+
+	((EntryPoint)sampleCodeModuleAddress)();
+
 	while(1){
 		if(getChar()=='a'){
 			putPixel(0xffffffff,20,20);
