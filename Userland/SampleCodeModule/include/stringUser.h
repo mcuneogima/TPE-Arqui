@@ -1,4 +1,4 @@
 int strlen(char * string);
 
-int strcmp(char* s1, char* s2);
+int strcmp(const char *str1, const char *str2);
 

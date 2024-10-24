@@ -18,8 +18,8 @@ void printColor(char * string, int color, int bg){
 }
 
 char getchar(){
-    char caracter[5];
-    read(0,caracter,3);
+    char caracter;
+    read(0,&caracter,1);
 	return caracter;
 }
 

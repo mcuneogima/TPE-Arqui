@@ -1,6 +1,7 @@
 #include <stdinout.h>
 #include <keyboard.h>
 #include <videoDriver.h>
+#include <interrupts.h>
 
 char conversionArray[]= { 
 	[0x01] = -1,   // escape no tiene carácter imprimible
@@ -65,6 +66,7 @@ char conversionArray[]= {
 
 //funcion para obtener el ultimo caracter del buffer de entrada devuelve -1 si 
 char getChar(){
+    _sti();
     char letter;
     do{
         letter=getKey();

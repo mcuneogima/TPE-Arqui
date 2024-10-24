@@ -7,22 +7,25 @@ void terminal(){
     char c;
     int i=0;
     printColor("Terminal: ",0x008000,0);
-    putchar(getchar());
-    // while((c=getchar())!='\n'){
-        
-    //     if(c==8){
-    //         i--;
-    //         // moveCursor();
-    //         // actualizarPantalla();
-    //     }else{
-    //         buffer[i++]=c;
-    //         // actualizarPantalla();
-    //     }
+    // while(1){
+    //     putchar(getchar());
     // }
-    // buffer[i]=0;
-    // if(strcmp(buffer,"help")){
-    //     help();
-    // }
+    
+    while((c=getchar())!='\n'){
+        putchar(c);
+        if(c==8){
+            i--;
+            // moveCursor();
+            // actualizarPantalla();
+        }else{
+            buffer[i++]=c;
+            // actualizarPantalla();
+        }
+    }
+    buffer[i]=0;
+    if(!strcmp(buffer,"help")){
+        help();
+    }
     // if(srcmp(buffer,"zoom in")){
     //     zoomIn();
     // }
