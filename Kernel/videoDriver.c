@@ -1,10 +1,12 @@
 #include <videoDriver.h>
 #include <stdint.h>
+#include <string.h>
 #include <font.h>
 
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
 #define TAB_SEPARATION 4
+#define ESCALE 3
 
 #define LINES_SMALL SCREEN_HEIGHT/16
 struct vbe_mode_info_structure {
@@ -49,8 +51,8 @@ typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
-int	x_char = 8;
-int	y_char = 16;
+int	x_char = 8*ESCALE;
+int	y_char = 16*ESCALE;
 int x_offset=0;
 int y_offset=0;
 	
@@ -64,19 +66,61 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF;
 }
 
-void drawChar(uint8_t *characterBitmap, uint64_t x, uint64_t y, uint32_t fontColor, uint32_t backgroundColor) {
+void drawChar(uint64_t *characterBitmap, uint64_t x, uint64_t y, uint32_t fontColor, uint32_t backgroundColor) {
+    int fontHeight = y_char;
+	int fontWidth = x_char;
+
 	// Recorre cada fila del carácter
-    for (int row = 0; row < getFontHeight() ; row++) {  // Tomando la altura del archivo font.c  (16 píxeles)
-        uint8_t bits = characterBitmap[row];  // Tomamos una fila del mapa de bits
-        for (int col = 0; col < getFontWidth() ; col++) {  // Tomando el ancho del archivo font.c (ancho de 8 píxeles)
-			/* Si el bit esta encendido, dibujamos un pixel del color de la fuente,
-			** si el bit esta apagado, dibujamos el color de fondo*/
-			putPixel(bits&(1<<(getFontWidth()-col-1))?fontColor:backgroundColor, x + col, y + row);
+    for (int row = 0; row < fontHeight; row++) {
+        uint64_t bits = characterBitmap[row];  // Tomamos una fila del mapa de bits
+
+        // Recorremos cada columna de la fila usando una máscara que abarque todo el ancho de la font
+        for (uint8_t col = 0; col < fontWidth; col++) {
+            // Usamos una mascara para analizar cada bit, empezando por el mas significativo
+            uint64_t mask = (uint64_t)1 << (fontWidth - 1 - col);
+
+            // Dibujamos el pixel en funcion de si el bit esta encendido o apagado
+            putPixel((bits & mask) ? fontColor : backgroundColor, x + col, y + row);
         }
     }
 }
 
+void changeFontScale(uint8_t * originalBitmap, uint64_t * newBitmap) {
+	// Definimos los tamaños de las nuevas y viejas font
+    uint8_t originalFontHeight = getFontHeight();
+    uint8_t originalFontWidth = getFontWidth();
+    uint8_t newFontHeight = y_char;
+    uint8_t newFontWidth = x_char; 
+
+    // Limpiamos el nuevo bitmap para que no haya datos previos
+    memset(newBitmap, 0, newFontHeight * sizeof(uint64_t));
+
+    // Recorremos los pixeles del bitmap original
+    for (uint8_t i = 0; i < originalFontHeight; i++) {
+        for (uint8_t j = 0; j < originalFontWidth; j++) {
+            // Verificamos si el bit en (i, j) está encendido en el bitmap original
+            if (originalBitmap[i] & (1 << (originalFontWidth - 1 - j))) {
+                // Mapeamos el bit encendido a la escala deseada
+                for (uint8_t y = 0; y < ESCALE; y++) {
+                    for (uint8_t x = 0; x < ESCALE; x++) {
+                        // Calculamos la posicion en el nuevo mapa de bits
+                        uint8_t newRow = i * ESCALE + y;
+                        uint8_t newCol = j * ESCALE + x;
+                        // Encendemos los bits correspondientes en la nueva matriz
+                        newBitmap[newRow] |= (1 << (newFontWidth - 1 - newCol));
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
 void putcharVideo(char character, uint32_t fontColor, uint32_t backgroundColor){
+	// Matriz para la nueva escala, inicializada en ceros
+    uint64_t scaleBitmap[y_char];
+
 	if(character=='\t'){
 		char leave=0;
 		for(int i=0; i<TAB_SEPARATION && !leave; i++){
@@ -89,7 +133,8 @@ void putcharVideo(char character, uint32_t fontColor, uint32_t backgroundColor){
 
 			}
 			else{
-				drawChar(getFontChar(' '), x_offset, y_offset, fontColor, backgroundColor);
+				changeFontScale(getFontChar(' '), scaleBitmap);
+				drawChar(scaleBitmap, x_offset, y_offset, fontColor, backgroundColor);
 				x_offset+=x_char;
 				last_xoffset_per_line[y_offset/16]=x_offset;
 			}
@@ -105,23 +150,25 @@ void putcharVideo(char character, uint32_t fontColor, uint32_t backgroundColor){
 
 	}
 	else if(character == 8){ //ascii backspace
+		changeFontScale(getFontChar(' '), scaleBitmap);
 		if(x_offset==0){ // si estoy en principio de linea y no estoy al principio de pantalla retorno a ultima posicion impresa en la linea anterior
 			if(y_offset==0){ 
 				return;
 			}
 			y_offset-=y_char;
 			x_offset=last_xoffset_per_line[y_offset/16];//==0)?0:last_xoffset_per_line[y_offset/16]-x_char;
-			drawChar(getFontChar(' '), x_offset, y_offset, fontColor, 0);
+			drawChar(scaleBitmap, x_offset, y_offset, fontColor, 0);
 		}
 		else{
 			x_offset-=x_char;
-			drawChar(getFontChar(' '), x_offset, y_offset, fontColor, 0);
+			drawChar(scaleBitmap, x_offset, y_offset, fontColor, 0);
 			last_xoffset_per_line[y_offset/16]=x_offset;
 		}
 	}
 	else{
+		changeFontScale(getFontChar(character), scaleBitmap);
     	if(x_offset+x_char<=SCREEN_WIDTH){
-			drawChar(getFontChar(character), x_offset, y_offset, fontColor, backgroundColor);
+			drawChar(scaleBitmap, x_offset, y_offset, fontColor, backgroundColor);
 			x_offset += x_char;  // Avanzamos el cursor el ancho del pixel (8 píxeles) para el siguiente carácter
 			last_xoffset_per_line[y_offset/16]=x_offset;
 		}
@@ -129,7 +176,7 @@ void putcharVideo(char character, uint32_t fontColor, uint32_t backgroundColor){
 			if(y_offset+2*y_char<=SCREEN_HEIGHT){
 				x_offset=0;
 				y_offset+=y_char;
-				drawChar(getFontChar(character), x_offset, y_offset, fontColor, backgroundColor);
+				drawChar(scaleBitmap, x_offset, y_offset, fontColor, backgroundColor);
 				x_offset+=x_char;
 				last_xoffset_per_line[y_offset/16]=x_offset;
 			}

@@ -2,7 +2,7 @@
 
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y);
 
-void drawChar(uint8_t * characterBitmap, uint64_t x, uint64_t y, uint32_t fontColor, uint32_t backgroundColor);
+void drawChar(uint64_t *characterBitmap, uint64_t x, uint64_t y, uint32_t fontColor, uint32_t backgroundColor);
 
 void printVideo(const char *string, uint32_t fontColor, uint32_t backgroundColor);
 
