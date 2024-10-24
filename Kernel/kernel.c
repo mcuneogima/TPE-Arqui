@@ -113,12 +113,13 @@ int main()
 
 	}*/
 	load_idt();
-
-	printf("Functions Available:", 0, 0, getColor(GREEN), getColor(BLACK));
-	printf("scanf", 2, 1, getColor(GREEN), getColor(BLACK));
-	printf("printf", 2, 2, getColor(GREEN), getColor(BLACK));
-	printf("putChar", 2, 3, getColor(GREEN), getColor(BLACK));
-	printf("getChar", 2, 4, getColor(GREEN), getColor(BLACK));
+	char arr[]={'a', 'b', 8, 's', '\n', 8, 0};
+	printVideo(arr, getColor(GREEN), getColor(BLACK));
+	printVideo("\nFunctions Available:\n", getColor(GREEN), getColor(BLACK));
+	printVideo("scanf\n", getColor(GREEN), getColor(BLACK));
+	printVideo("printf\n", getColor(GREEN), getColor(BLACK));
+	printVideo("putChar\n", getColor(GREEN), getColor(BLACK));
+	printVideo("getChar\n", getColor(GREEN), getColor(BLACK));
 
 	((EntryPoint)sampleCodeModuleAddress)();
 

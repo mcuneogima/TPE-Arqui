@@ -2,6 +2,11 @@
 #include <stdint.h>
 #include <font.h>
 
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 768
+#define TAB_SEPARATION 4
+
+#define LINES_SMALL SCREEN_HEIGHT/16
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
 	uint8_t window_a;			// deprecated
@@ -44,6 +49,13 @@ typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
+int	x_char = 8;
+int	y_char = 16;
+int x_offset=0;
+int y_offset=0;
+	
+int last_xoffset_per_line[LINES_SMALL]={0};
+
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
     uint64_t offset = (x * ((VBE_mode_info->bpp)/8)) + (y * VBE_mode_info->pitch);
@@ -64,14 +76,74 @@ void drawChar(uint8_t *characterBitmap, uint64_t x, uint64_t y, uint32_t fontCol
     }
 }
 
-void printf(const char *string, uint64_t x_char, uint64_t y_char, uint32_t fontColor, uint32_t backgroundColor) {
-	x_char *= getFontWidth();
-	y_char *= getFontHeight();
-	
+void putcharVideo(char character, uint32_t fontColor, uint32_t backgroundColor){
+	if(character=='\t'){
+		char leave=0;
+		for(int i=0; i<TAB_SEPARATION && !leave; i++){
+			if(x_offset+x_char>SCREEN_WIDTH){
+				leave=1;
+				if(y_offset+2*y_char<=SCREEN_HEIGHT){
+					y_offset+=y_char;
+					x_offset=0;
+				}
+
+			}
+			else{
+				drawChar(getFontChar(' '), x_offset, y_offset, fontColor, backgroundColor);
+				x_offset+=x_char;
+				last_xoffset_per_line[y_offset/16]=x_offset;
+			}
+		}
+
+	}
+	else if(character == '\n'){
+		if(y_offset+2*y_char<=SCREEN_HEIGHT){
+			last_xoffset_per_line[y_offset/16]=x_offset;
+			x_offset=0;
+			y_offset+=y_char;
+		}
+
+	}
+	else if(character == 8){ //ascii backspace
+		if(x_offset==0){ // si estoy en principio de linea y no estoy al principio de pantalla retorno a ultima posicion impresa en la linea anterior
+			if(y_offset==0){ 
+				return;
+			}
+			y_offset-=y_char;
+			x_offset=last_xoffset_per_line[y_offset/16];//==0)?0:last_xoffset_per_line[y_offset/16]-x_char;
+			drawChar(getFontChar(' '), x_offset, y_offset, fontColor, 0);
+		}
+		else{
+			x_offset-=x_char;
+			drawChar(getFontChar(' '), x_offset, y_offset, fontColor, 0);
+			last_xoffset_per_line[y_offset/16]=x_offset;
+		}
+	}
+	else{
+    	if(x_offset+x_char<=SCREEN_WIDTH){
+			drawChar(getFontChar(character), x_offset, y_offset, fontColor, backgroundColor);
+			x_offset += x_char;  // Avanzamos el cursor el ancho del pixel (8 píxeles) para el siguiente carácter
+			last_xoffset_per_line[y_offset/16]=x_offset;
+		}
+		else{
+			if(y_offset+2*y_char<=SCREEN_HEIGHT){
+				x_offset=0;
+				y_offset+=y_char;
+				drawChar(getFontChar(character), x_offset, y_offset, fontColor, backgroundColor);
+				x_offset+=x_char;
+				last_xoffset_per_line[y_offset/16]=x_offset;
+			}
+
+		}
+
+	}
+
+}
+
+void printVideo(const char *string, uint32_t fontColor, uint32_t backgroundColor) {
 	// Imprimimos el caracter correspondiente hasta llegar al final del string (Null Terminated)
     while (*string != 0) {
-        drawChar(getFontChar(*string), x_char, y_char, fontColor, backgroundColor);
-        x_char += getFontWidth();  // Avanzamos el cursor el ancho del pixel (8 píxeles) para el siguiente carácter
+        putcharVideo(*string, fontColor, backgroundColor);
         string++;
     }
 }

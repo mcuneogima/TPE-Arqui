@@ -16,8 +16,8 @@ char conversionArray[]= {
     [0x0B] = '0',
     [0x0C] = '-',
     [0x0D] = '=',
-    [0x0E] = '\b',   // backspace no es imprimible
-    [0x0F] = -1,   // tab no es imprimible
+    [0x0E] = 8,   // backspace no es imprimible
+    [0x0F] = '\t',   // tab no es imprimible
     [0x10] = 'q',
     [0x11] = 'w',
     [0x12] = 'e',
@@ -73,7 +73,8 @@ char getChar(){
 }
 
 //funcion para mostrar en salida estandar un caracter
-void putChar(char character){
+void putChar(char character, int color, int background){
+    putcharVideo(character,color,background);
 }
 
 
@@ -89,4 +90,7 @@ void read(char * buffer,int len){
 //terminara siendo la syscall write
 void write(const char *string, int len, int color, int background)
 {
+    for(int i=0; i<len; i++){
+        putcharVideo(string[i],color,background);
+    }
 }

@@ -2,7 +2,7 @@
 char getChar();
 
 //funcion para mostrar en salida estandar un caracter
-void putChar(char character);
+void putChar(char character, int color, int bg);
 
 //funcion para imprimir un string
 void write(const char * string, int len, int color, int background);
