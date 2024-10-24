@@ -7,19 +7,33 @@ GLOBAL sleep
 section .text
 
 write:
+    push rbp
+    mov rbp,rsp
     mov rax, 1
     int 80h
+    mov rsp, rbp
+    pop rbp
     ret
 
 read:
+    push rbp
+    mov rbp,rsp
+
     mov rax, 0
     int 80h
+    
+    mov rsp, rbp
+    pop rbp
     ret
     
 
 sleep:
+    push rbp
+    mov rbp,rsp
     mov rax, 35;
     int 80h
+    mov rsp, rbp
+    pop rbp
     ret
 
 ; devolverRegistros:
@@ -35,3 +49,6 @@ sleep:
 
 section .bss
 registros resq 10
+
+section .text
+palabra db "palabra"

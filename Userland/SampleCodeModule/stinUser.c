@@ -1,46 +1,26 @@
 #include "include/stinUser.h"
 #include "include/libasmUser.h"
 #include "include/stinUser.h"
-/*
+
 static char buffer[64] = { '0' };
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
-
-extern void write(int fd, char * str, int leng, int color, int bg);
-
-extern void read(int fd, char * buffer, int count);
-
-extern void sleep(int seg);
-
-char getchar();
-
-void printNL();
-
-void printTAB();
-
-void putchar(char carac);
-
-void printHexa();
 
 void print(char * string){
     printColor(string,0x00ffffff,0);
 }
 
 void printColor(char * string, int color, int bg){
-    for(int i=0;string[i]!='\0';i++){
-        if(string[i]=='\n'){
-            printNL();
-        }else if(string[i]=='\t'){
-            printTab();
-        }else{
-            putCharColor(string[i],color,bg);
-        }
+	int i;
+    for(i=0;string[i]!='\0';i++){
+    	putCharColor(string[i],color,bg);
     }
 }
 
-char getChar(){
-    char caracter;
-    read(0,&caracter,1);
+char getchar(){
+    char caracter[5];
+    read(0,caracter,3);
+	return caracter;
 }
 
 void putchar(char carac){
@@ -51,15 +31,6 @@ void putCharColor(char carac, int color, int bg){
     write(1, &carac,1,color,bg);
 }
 //ver lo de backspace
-
-void printNL(){
-
-}
-void printTAB(){
-    for(int i=0;i<4;i++){
-        putChar(" ");
-    }
-}
 
 void printHexa(uint64_t value){
 	printBase(value, 16);
@@ -101,5 +72,3 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
 
 	return digits;
 }
-
-*/

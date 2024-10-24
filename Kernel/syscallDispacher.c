@@ -40,6 +40,6 @@ void sys_write(FDS fd, const char * buffer, size_t count, size_t color, size_t b
 
     if (fd == STDOUT)
         write(buffer, count, color, background);
-    if(fd == STDERR)
+    else if(fd == STDERR)
         write(buffer, count, 0x00ff0000, 0);
 }
