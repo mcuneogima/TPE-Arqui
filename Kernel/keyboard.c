@@ -22,7 +22,8 @@ void bufferLoader(char input){
     if(input==LSHIFT_P||input==LSHIFT_R||input==CAPSLOCK_P){ //veo si seria mayus
         upperCase=!upperCase;
     }
-    if(input <= 0x3a){  //guardo teclas apretadas no soltadas
+    char checker=input;
+    if(!(checker >> 7)){  //guardo teclas apretadas no soltadas
         buffer[dim++]=input;
         dim%=BUFFER_LENGTH;
     }
@@ -32,8 +33,8 @@ void bufferLoader(char input){
 char getKey(){
     if (toPrint == dim)
 		return -1;
-	unsigned char toRet = buffer[toPrint];
-	buffer[toPrint++] = 0;
+	unsigned char toRet = buffer[toPrint++];
+//	buffer[toPrint++] = 0;
 	toPrint %= BUFFER_LENGTH;
 	return toRet;
 }

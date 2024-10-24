@@ -113,13 +113,9 @@ int main()
 
 	}*/
 	load_idt();
-	char arr[]={'a', 'b', 8, 's', '\n', 8, 0};
-	printVideo(arr, getColor(GREEN), getColor(BLACK));
-	printVideo("\nFunctions Available:\n", getColor(GREEN), getColor(BLACK));
-	printVideo("scanf\n", getColor(GREEN), getColor(BLACK));
-	printVideo("printf\n", getColor(GREEN), getColor(BLACK));
-	printVideo("putChar\n", getColor(GREEN), getColor(BLACK));
-	printVideo("getChar\n", getColor(GREEN), getColor(BLACK));
+	while(1){
+		putChar(getChar(),getColor(WHITE),0);
+	}
 
 	((EntryPoint)sampleCodeModuleAddress)();
 
