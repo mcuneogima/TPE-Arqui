@@ -113,9 +113,9 @@ int main()
 
 	}*/
 	load_idt();
-	// while(1){
-	// 	putChar(getChar(),getColor(WHITE),0);
-	// }
+	 /*while(1){
+	 	putChar(getChar(),getColor(WHITE),0);
+	 }*/
 
 	((EntryPoint)sampleCodeModuleAddress)();
 

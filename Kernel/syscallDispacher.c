@@ -31,6 +31,23 @@ void syscallDispatcher(uint64_t rax, ...){
             int zoom = va_arg(args, int);
             sys_zoom(zoom);
         }
+        else if(rax==43){
+            int color = va_arg(args, int);
+            int x = va_arg(args, int);
+            int y = va_arg(args, int);
+            sys_draw(color,x,y);
+        }
+        else if(rax==44){
+            int * width = va_arg(args, int *);
+            int * height = va_arg(args, int *);
+            sys_screenDetails(width,height);
+        }
+        else if(rax==45){
+            int x = va_arg(args, int);
+            int y = va_arg(args, int);
+            sys_setCursor(x,y);
+        }
+
     va_end(args);
 }
 
@@ -56,4 +73,15 @@ void sys_zoom(int zoom){
         zoomOut();
     }
 
+}
+void sys_draw(int color, int x, int y){
+    drawPixel(color, x, y);
+}
+
+void sys_screenDetails(int * width, int * height){
+    getScreenDetails(width,height);
+}
+
+void sys_setCursor(int x, int y){
+    setCursor(x,y);
 }

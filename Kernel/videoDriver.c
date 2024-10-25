@@ -87,17 +87,17 @@ void drawChar(uint64_t *characterBitmap, uint64_t x, uint64_t y, uint32_t fontCo
 }
 
 void zoomIn(){
-	if(scale<3){
+	if(scale<4){
 		scale++;
-		x_char*=scale;
-		y_char*=scale;
+		x_char=scale*getFontWidth();
+		y_char=scale*getFontHeight();
 	}
 }
 void zoomOut(){
 	if(scale>1){
 		scale--;
-		x_char*=scale;
-		y_char*=scale;
+		x_char=scale*getFontWidth();
+		y_char=scale*getFontHeight();
 	}
 }
 
@@ -172,7 +172,7 @@ void putcharVideo(char character, uint32_t fontColor, uint32_t backgroundColor){
 				return;
 			}
 			y_offset-=y_char;
-			x_offset=last_xoffset_per_line[y_offset/16];//==0)?0:last_xoffset_per_line[y_offset/16]-x_char;
+			x_offset=(last_xoffset_per_line[y_offset/16]==0)?0:last_xoffset_per_line[y_offset/16]-x_char;
 			drawChar(scaleBitmap, x_offset, y_offset, fontColor, 0);
 		}
 		else{
@@ -209,4 +209,25 @@ void printVideo(const char *string, uint32_t fontColor, uint32_t backgroundColor
         putcharVideo(*string, fontColor, backgroundColor);
         string++;
     }
+}
+
+void getScreenDetails(int * width, int * height){
+	*width=SCREEN_WIDTH;
+	*height=SCREEN_HEIGHT;
+}
+
+void setCursor(int x, int y){
+	if(isValidCoordinates(x,y)){
+		x_offset=x;
+		y_offset=y;
+	}
+}
+void drawPixel(int color, int x, int y){
+	if(isValidCoordinates(x,y)){
+		putPixel(color,x,y);
+	}
+}
+
+int isValidCoordinates(int x, int y){
+	return x>=0 && x<=SCREEN_WIDTH && y>=0 && y<=SCREEN_HEIGHT;
 }

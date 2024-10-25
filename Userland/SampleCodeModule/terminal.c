@@ -1,12 +1,22 @@
 #include "include/stinUser.h"
 #include "include/stringUser.h"
 #include "include/terminal.h"
+#include "include/screen.h"
 #include <stdint.h>
+
+#define STARTING_POSITION_X 0
+#define STARTING_POSITION_Y 0
+
+int charsPerLine[]={128,64,42};
+int charSize=1;
+int screenWidth;
+int screenHeight;
 
 void terminal(){
     char buffer[1000];
     char c;
     int i=0;
+    getScreenSize(&screenWidth,&screenHeight);
     // while(1){
     //     putchar(getchar());
     // }
@@ -22,26 +32,37 @@ void terminal(){
                 // moveCursor();
                 // actualizarPantalla();
             }else{
-                buffer[i++]=c;
-                putchar(c);
+                if((i+1)<charsPerLine[charSize-1]*2){
+                    buffer[i++]=c;
+                    putchar(c);
+                }
                 // actualizarPantalla();
             } 
         }
         else{
             buffer[i]=0;
+            refreshScreen();
             if(!strcmp(buffer,"help")){
                 help();
             }
             else if(!strcmp(buffer,"zoom in")){
-                zoomIn();
-                refreshScreen();
+                if(charSize<3){
+                    zoomIn();
+                    charSize++;      
+                }
             }
             else if(!strcmp(buffer,"zoom out")){
-                zoomOut();
-                refreshScreen();
+                 if(charSize>1){
+                    zoomOut();
+                    charSize--;      
+                }
             }
-            moveCursor();
-            clean(i+1);
+            else{
+                print("\n\nCommand ");
+                print(buffer);
+                print(" not found\n");
+            }
+            moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
             putCharColor('>',0xFFCC0F,0);
             i=0;
         }
@@ -62,14 +83,15 @@ void clean(int ammount){
 }
 
 void help(){
-    print("\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n");
-}
-void moveCursor(){
-
+    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n");
 }
 
 void refreshScreen(){
-
+    for(int i=0;i<=screenHeight;i++){
+        for(int j=0;j<=screenWidth;j++){
+            putPixel(0,j,i);
+        }
+    }
 }
 
 /*

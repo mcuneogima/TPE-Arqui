@@ -11,3 +11,9 @@ void putcharVideo(char character, uint32_t font, uint32_t background);
 void zoomIn();
 
 void zoomOut();
+
+void drawPixel(int color, int x, int y);
+
+void setCursor(int x, int y);
+
+void getScreenDetails(int * width, int * height);

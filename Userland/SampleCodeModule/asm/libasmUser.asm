@@ -2,6 +2,9 @@ GLOBAL write
 GLOBAL read
 GLOBAL sleep
 GLOBAL zoom
+GLOBAL draw
+GLOBAL screenDetails
+GLOBAL setCursor
 ; GLOBAL devolverRegistros
 ; EXTERN printRegistros
 
@@ -41,6 +44,33 @@ zoom:
     push rbp
     mov rbp, rsp
     mov rax, 28
+    int 80h
+    mov rsp, rbp
+    pop rbp
+    ret
+
+draw:
+    push rbp
+    mov rbp, rsp
+    mov rax, 43 ;franco colapinto
+    int 80h
+    mov rsp, rbp
+    pop rbp
+    ret
+
+screenDetails:
+    push rbp
+    mov rbp, rsp
+    mov rax, 44
+    int 80h
+    mov rsp, rbp
+    pop rbp
+    ret
+
+setCursor:
+    push rbp
+    mov rbp, rsp
+    mov rax, 45
     int 80h
     mov rsp, rbp
     pop rbp
