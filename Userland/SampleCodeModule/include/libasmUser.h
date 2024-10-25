@@ -4,4 +4,6 @@ void read(int fd, char * buffer, int count);
 
 void sleep(int seg);
 
+void zoom(int specifier);
+
 //void devolverRegistros();

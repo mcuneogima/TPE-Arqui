@@ -6,7 +6,6 @@
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
 #define TAB_SEPARATION 4
-#define ESCALE 3
 
 #define LINES_SMALL SCREEN_HEIGHT/16
 struct vbe_mode_info_structure {
@@ -51,8 +50,10 @@ typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
-int	x_char = 8*ESCALE;
-int	y_char = 16*ESCALE;
+
+int scale=1;
+int	x_char = 8;
+int	y_char = 16;
 int x_offset=0;
 int y_offset=0;
 	
@@ -85,6 +86,21 @@ void drawChar(uint64_t *characterBitmap, uint64_t x, uint64_t y, uint32_t fontCo
     }
 }
 
+void zoomIn(){
+	if(scale<3){
+		scale++;
+		x_char*=scale;
+		y_char*=scale;
+	}
+}
+void zoomOut(){
+	if(scale>1){
+		scale--;
+		x_char*=scale;
+		y_char*=scale;
+	}
+}
+
 void changeFontScale(uint8_t * originalBitmap, uint64_t * newBitmap) {
 	// Definimos los tamaños de las nuevas y viejas font
     uint8_t originalFontHeight = getFontHeight();
@@ -101,11 +117,11 @@ void changeFontScale(uint8_t * originalBitmap, uint64_t * newBitmap) {
             // Verificamos si el bit en (i, j) está encendido en el bitmap original
             if (originalBitmap[i] & (1 << (originalFontWidth - 1 - j))) {
                 // Mapeamos el bit encendido a la escala deseada
-                for (uint8_t y = 0; y < ESCALE; y++) {
-                    for (uint8_t x = 0; x < ESCALE; x++) {
+                for (uint8_t y = 0; y < scale; y++) {
+                    for (uint8_t x = 0; x < scale; x++) {
                         // Calculamos la posicion en el nuevo mapa de bits
-                        uint8_t newRow = i * ESCALE + y;
-                        uint8_t newCol = j * ESCALE + x;
+                        uint8_t newRow = i * scale + y;
+                        uint8_t newCol = j * scale + x;
                         // Encendemos los bits correspondientes en la nueva matriz
                         newBitmap[newRow] |= (1 << (newFontWidth - 1 - newCol));
                     }

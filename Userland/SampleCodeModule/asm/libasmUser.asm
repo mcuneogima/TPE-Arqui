@@ -1,6 +1,7 @@
 GLOBAL write
 GLOBAL read
 GLOBAL sleep
+GLOBAL zoom
 ; GLOBAL devolverRegistros
 ; EXTERN printRegistros
 
@@ -36,6 +37,15 @@ sleep:
     pop rbp
     ret
 
+zoom:
+    push rbp
+    mov rbp, rsp
+    mov rax, 28
+    int 80h
+    mov rsp, rbp
+    pop rbp
+    ret
+
 ; devolverRegistros:
 ;    mov [registros],rax
 ;    mov rax,registros
@@ -49,6 +59,3 @@ sleep:
 
 section .bss
 registros resq 10
-
-section .text
-palabra db "palabra"

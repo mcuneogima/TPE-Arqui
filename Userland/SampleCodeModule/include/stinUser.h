@@ -6,7 +6,7 @@ char getchar();
 
 void putchar(char carac);
 
-void printHexa();
+void printHexa(uint64_t value);
 
 void print(char * string);
 
@@ -15,3 +15,7 @@ void printColor(char * string, int color, int bg);
 void putCharColor(char carac, int color, int bg);
 
 void printBase(uint64_t value, uint32_t base);
+
+void zoomIn();
+
+void zoomOut();
