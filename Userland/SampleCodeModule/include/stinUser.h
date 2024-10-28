@@ -19,3 +19,9 @@ void printBase(uint64_t value, uint32_t base);
 void zoomIn();
 
 void zoomOut();
+
+void imprimirRegistros();
+
+void printRegistros(uint64_t* registros);
+
+void sleepUser(int segs);

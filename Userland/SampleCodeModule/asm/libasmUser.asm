@@ -5,7 +5,7 @@ GLOBAL zoom
 GLOBAL draw
 GLOBAL screenDetails
 GLOBAL setCursor
-; GLOBAL devolverRegistros
+GLOBAL devolverRegistros
 ; EXTERN printRegistros
 
 section .text
@@ -76,16 +76,32 @@ setCursor:
     pop rbp
     ret
 
-; devolverRegistros:
-;    mov [registros],rax
-;    mov rax,registros
-;    add rax, 8
-;    mov [rax], rbx
-;    add rax, 8
-
+devolverRegistros:
+    mov [registros],rax
+    mov rax,registros
+    add rax, 8
+;    mov rbx, 7Ah
+    mov [rax], rbx
+    add rax, 8
+    mov [rax], rcx
+    add rax, 8
+    mov [rax], rdx
+    add rax, 8
+    mov [rax], rsi
+    add rax, 8
+    mov [rax], rdi
+    add rax, 8
+    mov [rax], rbp
+    add rax, 8
+    mov [rax], rsp
+    add rax, 8
+    mov [rax], r8
+    add rax, 8
+    mov [rax], r9
+    mov rax, registros
 
 ;    call printRegistros 
-;    ret
+    ret
 
 section .bss
 registros resq 10

@@ -12,4 +12,4 @@ void screenDetails(int * width,int * height);
 
 void setCursor(int x, int y);
 
-//void devolverRegistros();
+uint64_t* devolverRegistros();

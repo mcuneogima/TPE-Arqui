@@ -25,6 +25,14 @@ void terminal(){
     
     while(1){
         if((c=getchar())!='\n'){
+            // if(c==0x48 || c==0xE0){        //pseudo codigo para la flechita
+            //     print("paso");
+            //     moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
+            //     clean(i+1);
+            //     putCharColor('>',0xFFCC0F,0);
+            //     print(bufferComands);
+            //     i=previousLength;
+            // }else 
             if(c==8){
                 if(i>0){
                     i--;
@@ -42,6 +50,7 @@ void terminal(){
         }
         else{
             buffer[i]=0;
+            // strcpy(buffer, bufferComands);
             moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
             clean(i+1); //limpio promt de comando 
             print("\n\n"); //bajo dos lineas
@@ -50,7 +59,7 @@ void terminal(){
 
             if(!strcmp(buffer,"help")){
                 help();
-                lastRunHeight=4;
+                lastRunHeight=5;
             }
             else if(!strcmp(buffer,"zoom in")){
                 if(charSize<3){
@@ -65,6 +74,14 @@ void terminal(){
                     charSize--;      
                 }
                 lastRunHeight=0;
+            }else if(!strcmp(buffer,"imprimirRegistros")){
+                imprimirRegistros();
+                lastRunHeight=10;
+            }else if(!strcmp(buffer,"exit")){
+                print("Bye Bye");
+                sleepUser(2);
+                refreshScreen();
+                return;
             }
             else{
                 print("\n\nCommand ");
@@ -74,6 +91,7 @@ void terminal(){
             }
             moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
             putCharColor('>',0xFFCC0F,0);
+            // previousLength=i;
             i=0;
         }
     }
@@ -94,7 +112,7 @@ void clean(int ammount){
 
 
 void help(){
-    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n");
+    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n \timprimirRegistros para mostrar los registros en pantalla \n ");
 }
 
 void refreshScreen(){
@@ -104,36 +122,3 @@ void refreshScreen(){
         }
     }
 }
-
-/*
-void imprimirRegistros(){
-    devolverRegistros();
-}
-
-void printRegistros(uint64_t* registros){
-    print("RAX: ");
-    printHexa(registros[0]);
-    print("\n");
-
-    print("RBX: ");
-    printHexa(registros[1]);
-    print("\n");
-
-    print("RCX: ");
-    printHexa(registros[2]);
-    print("\n");
-
-    print("RDX: ");
-    printHexa(registros[3]);
-    print("\n");
-
-    print("RSI: ");
-    printHexa(registros[4]);
-    print("\n");
-
-    print("RDI: ");
-    printHexa(registros[5]);
-    print("\n");
-
-}
-*/

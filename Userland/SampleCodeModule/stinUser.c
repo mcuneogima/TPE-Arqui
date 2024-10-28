@@ -79,3 +79,54 @@ void zoomIn(){
 void zoomOut(){
 	zoom(-1);
 }
+
+void imprimirRegistros(){
+	uint64_t* vector=devolverRegistros();
+    printRegistros(vector);
+}
+
+void printRegistros(uint64_t* registros){
+    print("\n\nRAX: ");
+    printHexa(registros[0]);
+    print("\n");
+
+    print("RBX: ");
+    printHexa(registros[1]);
+    print("\n");
+
+    print("RCX: ");
+    printHexa(registros[2]);
+    print("\n");
+
+    print("RDX: ");
+    printHexa(registros[3]);
+    print("\n");
+
+    print("RSI: ");
+    printHexa(registros[4]);
+    print("\n");
+
+    print("RDI: ");
+    printHexa(registros[5]);
+    print("\n");
+
+    print("RBP: ");
+    printHexa(registros[6]);
+    print("\n");
+
+    print("RSP: ");
+    printHexa(registros[7]);
+    print("\n");
+	
+	print("R8: ");
+    printHexa(registros[8]);
+    print("\n");
+
+    print("R9: ");
+    printHexa(registros[9]);
+    print("\n");
+}
+
+void sleepUser(int segs){
+    sleep(segs);
+}
