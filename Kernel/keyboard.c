@@ -65,5 +65,5 @@ int isSpecialKey(char scancode) {
     (scancode == LALT_P)      || (scancode == RALT_P)       ||
     (scancode == CAPSLOCK_P)  || (scancode == ESC_P)        ||
     (scancode == 0x57)      || (scancode == 0x58)       ||
-    ((scancode >= 0x3B) && (scancode <= 0x44));
+    (scancode >= 0x3B);
 }
