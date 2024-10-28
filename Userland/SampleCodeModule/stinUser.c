@@ -130,3 +130,7 @@ void printRegistros(uint64_t* registros){
 void sleepUser(int segs){
     sleep(segs);
 }
+
+void clock(){
+	clockTime();
+}

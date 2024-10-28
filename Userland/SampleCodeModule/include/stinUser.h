@@ -25,3 +25,5 @@ void imprimirRegistros();
 void printRegistros(uint64_t* registros);
 
 void sleepUser(int segs);
+
+void clock();

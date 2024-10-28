@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <font.h>
+#include <clock.h>
 
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
@@ -71,11 +72,11 @@ void drawChar(uint64_t *characterBitmap, uint64_t x, uint64_t y, uint32_t fontCo
     int fontHeight = y_char;
 	int fontWidth = x_char;
 
-	// Recorre cada fila del carácter
+	// Recorre cada fila del caracter
     for (int row = 0; row < fontHeight; row++) {
         uint64_t bits = characterBitmap[row];  // Tomamos una fila del mapa de bits
 
-        // Recorremos cada columna de la fila usando una máscara que abarque todo el ancho de la font
+        // Recorremos cada columna de la fila usando una mascara que abarque todo el ancho de la font
         for (uint8_t col = 0; col < fontWidth; col++) {
             // Usamos una mascara para analizar cada bit, empezando por el mas significativo
             uint64_t mask = (uint64_t)1 << (fontWidth - 1 - col);
@@ -134,7 +135,7 @@ void changeFontScale(uint8_t * originalBitmap, uint64_t * newBitmap) {
 
 
 void putcharVideo(char character, uint32_t fontColor, uint32_t backgroundColor){
-	// Matriz para la nueva escala, inicializada en ceros
+	// Matriz para la nueva escala
     uint64_t scaleBitmap[y_char];
 
 	if(character=='\t'){
@@ -230,4 +231,9 @@ void drawPixel(int color, int x, int y){
 
 int isValidCoordinates(int x, int y){
 	return x>=0 && x<=SCREEN_WIDTH && y>=0 && y<=SCREEN_HEIGHT;
+}
+
+void clockTime(){
+	printDay();
+	printHour();
 }

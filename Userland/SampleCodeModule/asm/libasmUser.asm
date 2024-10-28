@@ -6,6 +6,7 @@ GLOBAL draw
 GLOBAL screenDetails
 GLOBAL setCursor
 GLOBAL devolverRegistros
+GLOBAL clockTime
 ; EXTERN printRegistros
 
 section .text
@@ -99,9 +100,18 @@ devolverRegistros:
     add rax, 8
     mov [rax], r9
     mov rax, registros
-
-;    call printRegistros 
+    ; call printRegistros
     ret
+
+clockTime:
+    push rbp
+    mov rbp, rsp
+    mov rax, 46
+    int 80h
+    mov rsp, rbp
+    pop rbp
+    ret
+
 
 section .bss
 registros resq 10

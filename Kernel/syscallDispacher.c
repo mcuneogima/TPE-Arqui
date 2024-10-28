@@ -47,6 +47,9 @@ void syscallDispatcher(uint64_t rax, ...){
             int y = va_arg(args, int);
             sys_setCursor(x,y);
         }
+        else if(rax==46){
+            sys_clockTime();
+        }
 
     va_end(args);
 }
@@ -84,4 +87,8 @@ void sys_screenDetails(int * width, int * height){
 
 void sys_setCursor(int x, int y){
     setCursor(x,y);
+}
+
+void sys_clockTime(){
+    clockTime();
 }

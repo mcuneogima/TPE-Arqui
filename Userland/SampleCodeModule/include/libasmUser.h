@@ -14,4 +14,6 @@ void screenDetails(int * width,int * height);
 
 void setCursor(int x, int y);
 
+void clockTime();
+
 uint64_t* devolverRegistros();
