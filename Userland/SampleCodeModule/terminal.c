@@ -11,6 +11,7 @@ int charsPerLine[]={128,64,42};
 int charSize=1;
 int screenWidth;
 int screenHeight;
+int lastRunHeight=0;
 
 void terminal(){
     char buffer[1000];
@@ -41,26 +42,35 @@ void terminal(){
         }
         else{
             buffer[i]=0;
-            refreshScreen();
+            moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
+            clean(i+1); //limpio promt de comando 
+            print("\n\n"); //bajo dos lineas
+            clean(lastRunHeight*charsPerLine[charSize-1]); //limpio lo usado por el ultimo comando 
+            moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
+
             if(!strcmp(buffer,"help")){
                 help();
+                lastRunHeight=4;
             }
             else if(!strcmp(buffer,"zoom in")){
                 if(charSize<3){
                     zoomIn();
                     charSize++;      
                 }
+                lastRunHeight=0;
             }
             else if(!strcmp(buffer,"zoom out")){
                  if(charSize>1){
                     zoomOut();
                     charSize--;      
                 }
+                lastRunHeight=0;
             }
             else{
                 print("\n\nCommand ");
                 print(buffer);
                 print(" not found\n");
+                lastRunHeight=2+1; //peor de los casos para la promt + linea cnf
             }
             moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
             putCharColor('>',0xFFCC0F,0);
@@ -78,9 +88,10 @@ void terminal(){
 
 void clean(int ammount){
     for(int j=0;j<ammount;j++){
-        putchar(8);
+        putchar(' ');
     }
 }
+
 
 void help(){
     print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n");
