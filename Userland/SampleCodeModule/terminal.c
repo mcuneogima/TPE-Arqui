@@ -84,8 +84,13 @@ void terminal(){
                 refreshScreen();
                 return;
             }else if (!strcmp(buffer,"snake")){
+                while(charSize>1){
+                    zoomOut();
+                    charSize--;
+                }
                 snake();
-                lastRunHeight=48;
+                lastRunHeight=0;
+                refreshScreen();
             }
             else if(!strcmp(buffer, "clock")){
                 clock();
