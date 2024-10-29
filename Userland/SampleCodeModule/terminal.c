@@ -89,7 +89,7 @@ void terminal(){
                 lastRunHeight=10;
             }else if(!strcmp(buffer,"exit")){
                 print("Bye Bye");
-                sleepUser(2);
+                sleepUser(20);
                 refreshScreen();
                 return;
             }else if (!strcmp(buffer,"snake")){
@@ -119,12 +119,6 @@ void terminal(){
         }
     }
 
-    // if(srcmp(buffer,"imprimirRegistros")){
-    //     imprimirRegistros();
-    // }
-    // if(srcmp(buffer,"snake")){
-    //     snake();
-    // }
 }
 
 void clean(int ammount){
@@ -135,7 +129,7 @@ void clean(int ammount){
 
 
 void help(){
-    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n \tclock para ver la hora actual\n \tImprimirRegistros para mostrar los registros en pantalla \n ");
+    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n \tclock para ver la hora actual\n \tImprimirRegistros para mostrar los registros en pantalla\n \tsnake para jugar al juego de la viborita \n ");
 }
 
 void refreshScreen(){

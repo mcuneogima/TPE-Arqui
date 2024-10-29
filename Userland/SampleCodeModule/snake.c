@@ -59,36 +59,38 @@ void snake(){
         else{
             buffer[i]=0;
             clearPromt(i);
-            if(!strcmp(buffer,"1jug")){
+            if((!strcmp(buffer,"1jug"))||(!strcmp(buffer,"1"))){
                 jugadores=1;
             }
-            else if(!strcmp(buffer,"2jug")){
+            else if((!strcmp(buffer,"2jug"))||(!strcmp(buffer,"2"))){
                 jugadores=2;
             }
             else if(!strcmp(buffer,"quit")){
                 quit=1;
             }else if(!strcmp(buffer,"play")){
-                if(jugadores==1){
-                    sigleplayer();
-                }else{
-                    pvp();
-                }
+                play(jugadores);
             }
             i=0;
         }
     }
-    // select player 
-    //salir
-    //juego
 }
 
-void sigleplayer(){
+void play(int jug){
     if(played==0){
         played=1;
     }
     else{
         printTablero();
     }
+    if(jug==1){
+        sigleplayer();
+    }else{
+        pvpMode();
+    }
+}
+
+void sigleplayer(){
+
     int snk1[11*11][2];
     for(int i=0; i<3;i++){
         snk1[i][X]=STARTING_POS_X+i;
@@ -106,6 +108,96 @@ void sigleplayer(){
     int siguiente;
     char pressed;
     int last_dir=0;
+    while(crashed==0){
+        sleepUser(TIME_INTERVAL);
+        while((pressed=getcharNonLoop())!=-1){
+            if(pressed=='w'&&last_dir!=2){
+                dir=3;
+            }
+            else if(pressed=='a'&&last_dir!=0){
+                dir=1;
+            }
+            else if(pressed=='s'&&last_dir!=3){
+                dir=2;
+            }
+            else if(pressed=='d'&&last_dir!=1){
+                dir=0;
+            } 
+        }
+        if(!isValidPos1J(snk1[len1][X]+direc[dir][X],snk1[len1][Y]+direc[dir][Y],snk1, len1, cola)){
+            crashed=1;
+        }
+        else{
+            if(snk1[len1][X]+direc[dir][X]==apple_x&&snk1[len1][Y]+direc[dir][Y]==apple_y){           
+                siguiente=((len1+1)%(11*11));
+                    snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
+                    snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
+                    len1=siguiente;
+                    printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
+                    PutManzana(&apple_x,&apple_y,snk1,len1,cola);
+            }
+            else{
+                siguiente=((len1+1)%(11*11));
+                snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
+                snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
+                len1=siguiente;
+                printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
+                printCuadrado(snk1[cola][X]+6,snk1[cola][Y]+4);
+                cola=(cola+1)%(11*11);
+            }
+        }
+        last_dir=dir;
+    }
+}
+
+int isValidPos1J(int x,int y,int snake[][2], int len, int cola){
+    if(x<0||y<0||x>10||y>10){
+        return 0;
+    }
+    for(int i=cola; i!=len+1; i++){
+        i%=(11*11);
+        if(x==snake[i][X]&&y==snake[i][Y]){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+void pvpMode(){
+
+    int snk1[11*11][2];
+    for(int i=0; i<3;i++){
+        snk1[i][X]=STARTING_POS_X+i;
+        snk1[i][Y]=STARTING_POS_Y-1;
+        printCuadradoColor(STARTING_POS_X+i,STARTING_POS_Y-1, 0x00ff8000);
+    }
+    int len1=2;
+    int crashed=0;
+    int apple_x=8;
+    int apple_y=5;
+
+    int loser=0;
+
+    int snk2[11*11][2];
+    for(int i=0; i<3;i++){
+        snk2[i][X]=STARTING_POS_X+i;
+        snk2[i][Y]=STARTING_POS_Y+1;
+        printCuadradoColor(STARTING_POS_X+i,STARTING_POS_Y+1, CIAN);
+    }
+    int len2=2;
+
+    printCuadradoColor(apple_x,apple_y,ROJO);
+    int direc[][2]={{1,0},{-1,0},{0,1},{0,-1}};
+    int dir=0;
+    int cola=0;
+    int dir2=0;
+    int cola2=0;
+
+    int siguiente;
+
+    char pressed;
+    int last_dir=0;
+    int last_dir2=0;
     /*for(int i=0; 1;i++){
         if(i%10000==0){
             printBase(getMS(),10);
@@ -127,41 +219,76 @@ void sigleplayer(){
             }
             else if(pressed=='d'&&last_dir!=1){
                 dir=0;
+            }else if(pressed=='i'&&last_dir2!=2){
+                dir2=3;
+            }
+            else if(pressed=='j'&&last_dir2!=0){
+                dir2=1;
+            }
+            else if(pressed=='k'&&last_dir2!=3){
+                dir2=2;
+            }
+            else if(pressed=='l'&&last_dir2!=1){
+                dir2=0;
             } 
         }
-
-        //ms=getMS();
-        //if(ms>=prev_ms+TIME_INTERVAL){
-            //prev_ms=ms;
-            if(!isValidPos1J(snk1[len1][X]+direc[dir][X],snk1[len1][Y]+direc[dir][Y],snk1, len1, cola)){
-                crashed=1;
-            }
-            else{
-                if(snk1[len1][X]+direc[dir][X]==apple_x&&snk1[len1][Y]+direc[dir][Y]==apple_y){           
-                    siguiente=((len1+1)%(11*11));
-                    snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
-                    snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
-                    len1=siguiente;
-                    printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
-                    PutManzana(&apple_x,&apple_y,snk1,len1,cola);
-                }
-                else{
-                    siguiente=((len1+1)%(11*11));
-                    snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
-                    snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
-                    len1=siguiente;
-                    printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
-                    printCuadrado(snk1[cola][X]+6,snk1[cola][Y]+4);
-                    cola=(cola+1)%(11*11);
-                }
-            }
-            last_dir=dir;
-        //}
+        if(snk1[len1][X]+direc[dir][X]==apple_x&&snk1[len1][Y]+direc[dir][Y]==apple_y){           
+            siguiente=((len1+1)%(11*11));
+            snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
+            snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
+            len1=siguiente;
+            printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
+            PutManzana(&apple_x,&apple_y,snk1,len1,cola);
+        }
+        else{
+            siguiente=((len1+1)%(11*11));
+            snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
+            snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
+            len1=siguiente;
+            printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
+            printCuadrado(snk1[cola][X]+6,snk1[cola][Y]+4);
+            cola=(cola+1)%(11*11);
+        }
+        if(snk2[len2][X]+direc[dir2][X]==apple_x&&snk2[len2][Y]+direc[dir2][Y]==apple_y){           
+            siguiente=((len2+1)%(11*11));
+            snk2[siguiente][X]=snk2[len2][X]+direc[dir2][X];
+            snk2[siguiente][Y]=snk2[len2][Y]+direc[dir2][Y];
+            len2=siguiente;
+            printCuadradoColor(snk2[len2][X],snk2[len2][Y],CIAN);
+            PutManzana(&apple_x,&apple_y,snk2,len2,cola2);
+        }
+        else{
+            siguiente=((len2+1)%(11*11));
+            snk2[siguiente][X]=snk2[len2][X]+direc[dir2][X];
+            snk2[siguiente][Y]=snk2[len2][Y]+direc[dir2][Y];
+            len2=siguiente;
+            printCuadradoColor(snk2[len2][X],snk2[len2][Y],CIAN);
+            printCuadrado(snk2[cola2][X]+6,snk2[cola2][Y]+4);
+            cola2=(cola2+1)%(11*11);
+        }        
+        if(!isValidPos2J(snk1[len1][X]+direc[dir][X],snk1[len1][Y]+direc[dir][Y],snk1, len1, cola,snk2,len2,cola2)){
+            loser=1;
+            crashed=1;
+        }
+        if(!isValidPos2J(snk2[len2][X]+direc[dir2][X],snk2[len2][Y]+direc[dir2][Y],snk2, len2, cola2,snk1,len1,cola)){
+            loser+=2;
+            crashed=2;
+        }
+        last_dir=dir;
+        last_dir2=dir2;
     }
+    if(loser==1){
+        printColor("GANADOR: Jugador2\n",VIOLETA,0);
+    }else if(loser==2){
+        printColor("GANADOR: Jugador1\n",VIOLETA,0);
+    }else{
+        printColor("EMPATE\n",VIOLETA,0);
+    }
+    
 }
 
-int isValidPos1J(int x,int y,int snake[][2], int len, int cola){
-    if(x<0||y<0||x>10||y>10){
+int isValidPos2J(int x,int y,int snake[][2], int len, int cola,int snake2[][2], int len2, int cola2){
+    if(x<-1||y<-1||x>10||y>10){
         return 0;
     }
     for(int i=cola; i!=len+1; i++){
@@ -170,11 +297,13 @@ int isValidPos1J(int x,int y,int snake[][2], int len, int cola){
             return 0;
         }
     }
+    for(int i=cola2; i!=len2+1; i++){
+        i%=(11*11);
+        if(x==snake2[i][X]&&y==snake2[i][Y]){
+            return 0;
+        }
+    }
     return 1;
-}
-
-void pvp(){
-
 }
 
 void printCuadradoColor(int x, int y, int color){
