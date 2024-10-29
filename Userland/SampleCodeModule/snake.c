@@ -8,6 +8,9 @@
 #define VERDECLARO 0x74FF33
 #define VERDEOSCURO 0x266F04
 
+#define NARANJA 0xFF8000
+#define CIAN 0x0098D5
+#define AMARILLO 0xFFCC0F
 
 
 
@@ -16,7 +19,15 @@ void snake(){
     char c;
     int i=0;
     char buffer[128];
-    print("Bienvenido a snake!\nComo jugar: El objetivo es agarrar las manzanas (rojo), para ello, el jugador 1 (azul) se puede mover con wasd y el jugador 2 \n(naranja) con ijkl.\nSeleccione numero de jugadores: [1jug], [2jug]\n[quit] para salir, [play] para jugar\n");
+    printColor("Bienvenido a snake!\n",ROJO,0x000000);
+    print("Como jugar: El objetivo es agarrar las manzanas (rojo), para ello, el jugador 1 (naranja) se puede mover con 'wasd'\nY el jugador 2 (azul) con 'ijkl'.\nSeleccione numero de jugadores: ");
+    printColor("[1jug]",NARANJA,0x000000);
+    print("  o  ");
+    printColor("[2jug]\n",CIAN,0x000000);
+    printColor("[quit]  ",ROJO,0x000000);
+    print("para salir, ");
+    printColor("[play] ",AMARILLO,0x000000);
+    print("para jugar\n");
     putCharColor('>',0xFFCC0F,0);
     printTablero(); //11x11 de cuadrados de 45x45
     while(!quit){
@@ -51,6 +62,7 @@ void snake(){
             i=0;
         }
     }
+    PutManzana();
     // select player 
     //salir
     //juego
@@ -114,3 +126,15 @@ void printAS(int col, int fila){
         }
     }
 }
+
+void PutManzana(){
+    int x=numeroAleatorioEntre(0,10, getMS());
+    int y=numeroAleatorioEntre(0,10, getMS());
+
+    for(int i=3;i<39;i++){
+        for(int j=3;j<39;j++){
+            putPixel(ROJO,i+x*45,y*45);
+        }
+    }
+}
+

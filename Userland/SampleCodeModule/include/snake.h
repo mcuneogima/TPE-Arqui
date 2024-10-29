@@ -10,3 +10,4 @@ void clearPromt(int len);
 
 void printAS(int col, int fila);
 
+void PutManzana();

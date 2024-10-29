@@ -27,3 +27,9 @@ void printRegistros(uint64_t* registros);
 void sleepUser(int segs);
 
 void clock();
+
+int numeroAleatorioEntre(int min, int max, unsigned int *seed) ;
+
+unsigned int generarNumeroAleatorio(unsigned int *seed);
+
+uint64_t getMS();
