@@ -139,22 +139,19 @@ void sigleplayer(){
             else{
                 if(snk1[len1][X]+direc[dir][X]==apple_x&&snk1[len1][Y]+direc[dir][Y]==apple_y){
                     PutManzana(&apple_x,&apple_y);
-                    printBase(apple_x,10);
-                    printBase(apple_y,10);
-                    
-                    siguiente=(len1+1)%(11+11);
+                    siguiente=(len1+1)%(11*11);
                     snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
                     snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
                     len1=siguiente;
                     printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
                 }
                 else{
-                    siguiente=(len1+1)%(11+11);
+                    siguiente=(len1+1)%(11*11);
                     snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
                     snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
                     len1=siguiente;
                     printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
-                    printCuadradoColor(snk1[cola][X],snk1[cola][Y],VIOLETA);
+                    printCuadrado(snk1[cola][X]+6,snk1[cola][Y]+4);
                     cola=(cola+1)%(11*11);
                 }
             }
