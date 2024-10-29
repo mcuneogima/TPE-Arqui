@@ -2,6 +2,7 @@
 #include "include/stringUser.h"
 #include "include/terminal.h"
 #include "include/screen.h"
+#include "include/snake.h"
 #include <stdint.h>
 
 #define STARTING_POSITION_X 0
@@ -82,6 +83,9 @@ void terminal(){
                 sleepUser(2);
                 refreshScreen();
                 return;
+            }else if (!strcmp(buffer,"snake")){
+                snake();
+                lastRunHeight=48;
             }
             else if(!strcmp(buffer, "clock")){
                 clock();
@@ -116,7 +120,7 @@ void clean(int ammount){
 
 
 void help(){
-    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n \tclock para ver el dia y la hora actual\n \timprimirRegistros para mostrar los registros en pantalla \n ");
+    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n \tclock para ver el dia y la hora actual\n \tImprimirRegistros para mostrar los registros en pantalla \n ");
 }
 
 void refreshScreen(){
