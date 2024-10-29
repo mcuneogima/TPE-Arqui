@@ -131,6 +131,18 @@ void sleepUser(int segs){
     sleep(segs);
 }
 
+uint64_t getMS(){
+    uint64_t milis;
+    getMiliSecs(&milis);
+    return milis;
+}
+
 void clock(){
 	clockTime();
+}
+
+char getcharNonLoop(){
+    char charac;
+    getcharNL(&charac);
+    return charac;
 }

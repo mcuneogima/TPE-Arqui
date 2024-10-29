@@ -27,3 +27,7 @@ void printRegistros(uint64_t* registros);
 void sleepUser(int segs);
 
 void clock();
+
+char getcharNonLoop();
+
+uint64_t getMS();

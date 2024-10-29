@@ -74,6 +74,12 @@ char getChar(){
     return (isUpperCase() && letter!=-1 && conversionArray[letter]<='z' && conversionArray[letter]>='a')?conversionArray[letter]-('a'-'A'):(letter!=-1)?conversionArray[letter]:letter;
 }
 
+char getcharNonLoop(){
+    _sti();
+    char letter=getKey();
+    return (isUpperCase() && letter!=-1 && conversionArray[letter]<='z' && conversionArray[letter]>='a')?conversionArray[letter]-('a'-'A'):(letter!=-1)?conversionArray[letter]:letter;
+}
+
 //funcion para mostrar en salida estandar un caracter
 void putChar(char character, int color, int background){
     putcharVideo(character,color,background);

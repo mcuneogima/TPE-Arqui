@@ -50,6 +50,14 @@ void syscallDispatcher(uint64_t rax, ...){
         else if(rax==46){
             sys_clockTime();
         }
+        else if(rax==87){
+            uint64_t * milis = va_arg(args, uint64_t *);
+            sys_getMilis(milis);
+        }
+        else if(rax==2){
+            char * charac = va_arg(args, char *);
+            sys_getcharNL(charac);
+        }
 
     va_end(args);
 }
@@ -91,4 +99,12 @@ void sys_setCursor(int x, int y){
 
 void sys_clockTime(){
     clockTime();
+}
+
+void sys_getMilis(uint64_t * milis){
+    *milis=getMS();
+}
+
+void sys_getcharNL(char * charac){
+    *charac=getcharNonLoop();
 }

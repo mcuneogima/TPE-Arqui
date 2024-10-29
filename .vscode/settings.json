@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "keyboard.h": "c"
+        "keyboard.h": "c",
+        "stinuser.h": "c",
+        "stringuser.h": "c",
+        "libasmuser.h": "c"
     }
 }

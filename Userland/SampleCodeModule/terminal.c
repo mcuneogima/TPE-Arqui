@@ -18,6 +18,7 @@ void terminal(){
     char buffer[1000];
     char c;
     int i=0;
+    int tabs=0;
     getScreenSize(&screenWidth,&screenHeight);
     // while(1){
     //     putchar(getchar());
@@ -41,8 +42,16 @@ void terminal(){
                 }
                 // moveCursor();
                 // actualizarPantalla();
+            }
+            else if(c=='\t'){
+                if(i+tabs*3+4<charsPerLine[charSize-1]*2){
+                    tabs++;
+                    buffer[i++]=c;
+                    putchar(c);
+                }
+                
             }else{
-                if((i+1)<charsPerLine[charSize-1]*2){
+                if((i+tabs*3+1)<charsPerLine[charSize-1]*2){
                     buffer[i++]=c;
                     putchar(c);
                 }
@@ -53,7 +62,7 @@ void terminal(){
             buffer[i]=0;
             // strcpy(buffer, bufferComands);
             moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
-            clean(i+1); //limpio promt de comando 
+            clean(i+1+tabs*3); //limpio promt de comando 
             print("\n\n"); //bajo dos lineas
             clean(lastRunHeight*charsPerLine[charSize-1]); //limpio lo usado por el ultimo comando 
             moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
@@ -105,6 +114,7 @@ void terminal(){
             moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
             putCharColor('>',0xFFCC0F,0);
             // previousLength=i;
+            tabs=0;
             i=0;
         }
     }
