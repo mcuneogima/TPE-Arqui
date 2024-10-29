@@ -137,16 +137,16 @@ void sigleplayer(){
                 crashed=1;
             }
             else{
-                if(snk1[len1][X]+direc[dir][X]==apple_x&&snk1[len1][Y]+direc[dir][Y]==apple_y){
-                    PutManzana(&apple_x,&apple_y);
-                    siguiente=(len1+1)%(11*11);
+                if(snk1[len1][X]+direc[dir][X]==apple_x&&snk1[len1][Y]+direc[dir][Y]==apple_y){           
+                    siguiente=((len1+1)%(11*11));
                     snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
                     snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
                     len1=siguiente;
                     printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
+                    PutManzana(&apple_x,&apple_y,snk1,len1,cola);
                 }
                 else{
-                    siguiente=(len1+1)%(11*11);
+                    siguiente=((len1+1)%(11*11));
                     snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
                     snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
                     len1=siguiente;
@@ -246,12 +246,24 @@ void printAS(int col, int fila){
     }
 }
 
-void PutManzana(int * apple_x, int * apple_y){
-    uint64_t a=getMS();
-    uint64_t b=2*(a+5);
-    int x=numeroAleatorioEntre(0,10, &a);
-    int y=numeroAleatorioEntre(0,10, &b);
-
+void PutManzana(int * apple_x, int * apple_y,int snake[][2], int length, int cola){
+    uint64_t a;
+    uint64_t b;
+    int x;
+    int y;
+    int flag=0;
+    do{
+        a=getMS();
+        b=2*(a+5);
+        x=numeroAleatorioEntre(0,10, &a);
+        y=numeroAleatorioEntre(0,10, &b);
+        for(int j=cola;j<length;j++){
+            j%=(11*11);
+            if((x==snake[j][X])&&(y==snake[j][Y])){
+                flag=1;
+            }
+        }
+    }while(flag);
     *apple_x=x;
     *apple_y=y;
 
