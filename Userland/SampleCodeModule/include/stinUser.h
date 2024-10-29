@@ -28,6 +28,11 @@ void sleepUser(int segs);
 
 void clock();
 
+char getcharNonLoop();
+
+uint64_t getMS();
+
+
 int numeroAleatorioEntre(int min, int max, unsigned int *seed) ;
 
 unsigned int generarNumeroAleatorio(unsigned int *seed);

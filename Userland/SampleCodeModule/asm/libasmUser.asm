@@ -7,6 +7,8 @@ GLOBAL screenDetails
 GLOBAL setCursor
 GLOBAL devolverRegistros
 GLOBAL clockTime
+GLOBAL getMiliSecs
+GLOBAL getcharNL
 ; EXTERN printRegistros
 
 section .text
@@ -112,6 +114,27 @@ clockTime:
     pop rbp
     ret
 
+getMiliSecs:
+    push rbp
+    mov rbp, rsp
+
+    mov rax, 87
+    int 80h
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+getcharNL:
+    push rbp
+    mov rbp, rsp
+
+    mov rax, 2
+    int 80h
+
+    mov rsp, rbp
+    pop rbp
+    ret
 
 section .bss
 registros resq 10

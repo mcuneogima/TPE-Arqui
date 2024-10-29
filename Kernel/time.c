@@ -1,6 +1,7 @@
 #include <time.h>
 #include <interrupts.h>
 #include <naiveConsole.h>
+#include <videoDriver.h>
 
 static unsigned long ticks = 0;
 int last_seconds = 0;
@@ -24,4 +25,8 @@ void sleep(int seconds){
 	while(current_seconds+seconds!=ticks/18){
 		_hlt();
 	}
+}
+
+uint64_t getMS(){
+	return ticks;
 }
