@@ -5,6 +5,7 @@
 #include <stdinout.h>
 #include <videoDriver.h>
 #include <time.h>
+#include <interrupts.h>
 
 void syscallDispatcher(uint64_t rax, ...){
     va_list args;
@@ -102,7 +103,8 @@ void sys_clockTime(){
 }
 
 void sys_getMilis(uint64_t * milis){
-    *milis=getMS();
+    _sti();
+    *milis=getMiSe();
 }
 
 void sys_getcharNL(char * charac){

@@ -20,13 +20,13 @@ int seconds_elapsed() {
 
 //funcion sleep en seg 
 //termina siendo la syscall sleep
-void sleep(int seconds){
-	int current_seconds=ticks/18;
-	while(current_seconds+seconds!=ticks/18){
+void sleep(int time){
+	int current_ticks=ticks;
+	while(current_ticks+time>=ticks){
 		_hlt();
 	}
 }
 
-uint64_t getMS(){
+uint64_t getMiSe(){
 	return ticks;
 }

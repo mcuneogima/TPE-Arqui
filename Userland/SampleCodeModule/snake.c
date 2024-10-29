@@ -9,7 +9,7 @@
 #define VERDEOSCURO 0x266F04
 #define VIOLETA 0x9a4eae
 
-#define TIME_INTERVAL 1
+#define TIME_INTERVAL 9
 
 #define X 0
 #define Y 1
@@ -77,7 +77,6 @@ void snake(){
             i=0;
         }
     }
-    PutManzana();
     // select player 
     //salir
     //juego
@@ -107,32 +106,42 @@ void sigleplayer(){
     int siguiente;
     char pressed;
     int last_dir=0;
-    uint64_t prev_ms=getMS();
-    uint64_t ms=prev_ms;
+    /*for(int i=0; 1;i++){
+        if(i%10000==0){
+            printBase(getMS(),10);
+            print(" ");
+            putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);
+        }
+    }*/
     while(crashed==0){
-        pressed=getcharNonLoop();
-        if(pressed=='w'&&last_dir!=3){
-            dir=3;
-        }
-        else if(pressed=='a'&&last_dir!=1){
+        sleepUser(TIME_INTERVAL);
+        while((pressed=getcharNonLoop())!=-1){
+            if(pressed=='w'&&last_dir!=2){
+                dir=3;
+            }
+            else if(pressed=='a'&&last_dir!=0){
                 dir=1;
-        }
-        else if(pressed=='s'&&last_dir!=2){
+            }
+            else if(pressed=='s'&&last_dir!=3){
                 dir=2;
-        }
-        else if(pressed=='d'&&last_dir!=0){
+            }
+            else if(pressed=='d'&&last_dir!=1){
                 dir=0;
+            } 
         }
-        ms=getMS();
-        if(ms>=prev_ms+TIME_INTERVAL){
-            prev_ms=ms;
+
+        //ms=getMS();
+        //if(ms>=prev_ms+TIME_INTERVAL){
+            //prev_ms=ms;
             if(!isValidPos1J(snk1[len1][X]+direc[dir][X],snk1[len1][Y]+direc[dir][Y],snk1, len1, cola)){
                 crashed=1;
             }
             else{
                 if(snk1[len1][X]+direc[dir][X]==apple_x&&snk1[len1][Y]+direc[dir][Y]==apple_y){
-                    //getRandPos(&apple_x,&apple_y);
-                    //printCuadradoColor(apple_x,apple_y,0x00ff0000);
+                    PutManzana(&apple_x,&apple_y);
+                    printBase(apple_x,10);
+                    printBase(apple_y,10);
+                    
                     siguiente=(len1+1)%(11+11);
                     snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
                     snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
@@ -145,12 +154,12 @@ void sigleplayer(){
                     snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
                     len1=siguiente;
                     printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
-                    printCuadrado(snk1[cola][X],snk1[cola][Y]);
+                    printCuadradoColor(snk1[cola][X],snk1[cola][Y],VIOLETA);
                     cola=(cola+1)%(11*11);
                 }
             }
             last_dir=dir;
-        }
+        //}
     }
 }
 
@@ -240,14 +249,15 @@ void printAS(int col, int fila){
     }
 }
 
-void PutManzana(){
-    int x=numeroAleatorioEntre(0,10, getMS());
-    int y=numeroAleatorioEntre(0,10, getMS());
+void PutManzana(int * apple_x, int * apple_y){
+    uint64_t a=getMS();
+    uint64_t b=2*(a+5);
+    int x=numeroAleatorioEntre(0,10, &a);
+    int y=numeroAleatorioEntre(0,10, &b);
 
-    for(int i=3;i<39;i++){
-        for(int j=3;j<39;j++){
-            putPixel(ROJO,i+x*45,y*45);
-        }
-    }
+    *apple_x=x;
+    *apple_y=y;
+
+    printCuadradoColor(x,y,ROJO);
 }
 

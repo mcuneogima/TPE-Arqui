@@ -148,7 +148,7 @@ char getcharNonLoop(){
 }
 
 
-unsigned int generarNumeroAleatorio(unsigned int *seed) {
+unsigned int generarNumeroAleatorio(uint64_t *seed) {
     // Parámetros del generador congruencial lineal
     const unsigned long a = 1664525; // Multiplicador
     const unsigned long c = 1013904223; // Incremento
@@ -159,11 +159,7 @@ unsigned int generarNumeroAleatorio(unsigned int *seed) {
     return *seed;
 }
 
-int numeroAleatorioEntre(int min, int max, unsigned int *seed) {
+int numeroAleatorioEntre(int min, int max, uint64_t *seed) {
     unsigned int numero = generarNumeroAleatorio(seed);
     return (numero % (max - min + 1)) + min;
-}
-
-uint64_t getMS(){
-
 }

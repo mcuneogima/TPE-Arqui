@@ -33,8 +33,8 @@ char getcharNonLoop();
 uint64_t getMS();
 
 
-int numeroAleatorioEntre(int min, int max, unsigned int *seed) ;
+int numeroAleatorioEntre(int min, int max, uint64_t *seed) ;
 
-unsigned int generarNumeroAleatorio(unsigned int *seed);
+unsigned int generarNumeroAleatorio(uint64_t *seed);
 
 uint64_t getMS();

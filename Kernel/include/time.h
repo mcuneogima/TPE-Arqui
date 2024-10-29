@@ -7,6 +7,6 @@ int ticks_elapsed();
 int seconds_elapsed();
 void check_5seconds();
 void sleep(int seconds);
-uint64_t getMS();
+uint64_t getMiSe();
 
 #endif
