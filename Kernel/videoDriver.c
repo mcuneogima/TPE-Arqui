@@ -234,6 +234,6 @@ int isValidCoordinates(int x, int y){
 }
 
 void clockTime(){
-	printDay();
+	// printDay();
 	printHour();
 }

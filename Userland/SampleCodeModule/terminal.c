@@ -60,7 +60,7 @@ void terminal(){
 
             if(!strcmp(buffer,"help")){
                 help();
-                lastRunHeight=7;
+                lastRunHeight=6;
             }
             else if(!strcmp(buffer,"zoom in")){
                 if(charSize<3){
@@ -89,7 +89,7 @@ void terminal(){
             }
             else if(!strcmp(buffer, "clock")){
                 clock();
-                lastRunHeight=3;
+                lastRunHeight=1;
             }
             else{
                 print("\n\nCommand ");
@@ -120,7 +120,7 @@ void clean(int ammount){
 
 
 void help(){
-    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n \tclock para ver el dia y la hora actual\n \tImprimirRegistros para mostrar los registros en pantalla \n ");
+    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n \tclock para ver la hora actual\n \tImprimirRegistros para mostrar los registros en pantalla \n ");
 }
 
 void refreshScreen(){

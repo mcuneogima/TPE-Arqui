@@ -53,22 +53,25 @@ static uint64_t decode(uint64_t time) {
 uint64_t getSeconds();
 uint64_t getMinutes();
 uint64_t getHours();
-uint64_t getDoW();
-uint64_t getMonth();
-uint64_t getYear();
+// uint64_t getDoW();
+// uint64_t getMonth();
+// uint64_t getYear();
 
-void printDay(){
-    printVideo("\n\n\tDay: ", getColor(WHITE), getColor(BLACK));
-    printBase(decode(getDoW()), 10);
-    printVideo("/", getColor(WHITE), getColor(BLACK));
-    printBase(decode(getMonth()), 10);
-    printVideo("/", getColor(WHITE), getColor(BLACK));
-    printBase(decode(getYear()), 10);
-}
+// Falta ajuste del TIME_ZONE -> dependiendo del dia del mes del año
+// void printDay(){
+//     printVideo("\n\n\tDay: ", getColor(WHITE), getColor(BLACK));
+//     printBase(decode(getDoW()), 10);
+//     printVideo("/", getColor(WHITE), getColor(BLACK));
+//     printBase(decode(getMonth()), 10);
+//     printVideo("/", getColor(WHITE), getColor(BLACK));
+//     printBase(decode(getYear()), 10);
+// }
 
 void printHour(){
-    printVideo("\n\tHour: ", getColor(WHITE), getColor(BLACK));
-    printBase(decode(getHours())+TIME_ZONE, 10);
+    printVideo("\n\n\tHour: ", getColor(WHITE), getColor(BLACK));
+	int hours = decode(getHours())+TIME_ZONE;
+	hours += (hours<0||hours>23)?24:0;
+    printBase((uint64_t)hours, 10);
     printVideo(":", getColor(WHITE), getColor(BLACK));
     printBase(decode(getMinutes()), 10);
     printVideo(":", getColor(WHITE), getColor(BLACK));

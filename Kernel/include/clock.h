@@ -2,6 +2,6 @@
 #include "font.h"
 #include "videoDriver.h"
 
-void printDay();
+// void printDay();
 
 void printHour();
