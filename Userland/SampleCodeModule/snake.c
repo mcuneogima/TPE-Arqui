@@ -22,6 +22,8 @@ int played=0;
 #define CIAN 0x0098D5
 #define AMARILLO 0xFFCC0F
 
+int last_result_len=0;
+
 
 
 void snake(){
@@ -38,7 +40,7 @@ void snake(){
     printColor("[quit]  ",ROJO,0x000000);
     print("para salir, ");
     printColor("[play] ",AMARILLO,0x000000);
-    print("para jugar\n");
+    print("para jugar\n\n");
     putCharColor('>',0xFFCC0F,0);
     printTablero(); //11x11 de cuadrados de 45x45
     while(!quit){
@@ -90,7 +92,7 @@ void play(int jug){
 }
 
 void sigleplayer(){
-
+    putchar(8);
     int snk1[11*11][2];
     for(int i=0; i<3;i++){
         snk1[i][X]=STARTING_POS_X+i;
@@ -108,6 +110,9 @@ void sigleplayer(){
     int siguiente;
     char pressed;
     int last_dir=0;
+    int points=0;
+    print("jug1 ");
+    printBase(points,10);
     while(crashed==0){
         sleepUser(TIME_INTERVAL);
         while((pressed=getcharNonLoop())!=-1){
@@ -135,7 +140,11 @@ void sigleplayer(){
                     len1=siguiente;
                     printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
                     PutManzana(&apple_x,&apple_y,snk1,len1,cola);
-            }
+                    cleanResult(4+checkPoints(points));
+                    points++;
+                    print("jug1 ");
+                    printBase(points,10);
+                    }
             else{
                 siguiente=((len1+1)%(11*11));
                 snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
@@ -148,6 +157,8 @@ void sigleplayer(){
         }
         last_dir=dir;
     }
+    cleanResult(4+checkPoints(points));
+    putCharColor('>',0xFFCC0F,0);
 }
 
 int isValidPos1J(int x,int y,int snake[][2], int len, int cola){
@@ -164,7 +175,7 @@ int isValidPos1J(int x,int y,int snake[][2], int len, int cola){
 }
 
 void pvpMode(){
-
+    putchar(8);
     int snk1[11*11][2];
     for(int i=0; i<3;i++){
         snk1[i][X]=STARTING_POS_X+i;
@@ -194,7 +205,8 @@ void pvpMode(){
     int cola2=0;
 
     int siguiente;
-
+    int points1=0;
+    int points2=0;
     char pressed;
     int last_dir=0;
     int last_dir2=0;
@@ -205,6 +217,10 @@ void pvpMode(){
             putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);
         }
     }*/
+    print("jug1 ");
+    printBase(points1,10);
+    print(" jug2 ");
+    printBase(points2,10);
     while(crashed==0){
         sleepUser(TIME_INTERVAL);
         while((pressed=getcharNonLoop())!=-1){
@@ -239,6 +255,13 @@ void pvpMode(){
             len1=siguiente;
             printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
             PutManzana(&apple_x,&apple_y,snk1,len1,cola);
+            cleanResult(4+2+checkPoints(points1)+4+checkPoints(points2));
+            points1++;
+            print("jug1 ");
+            printBase(points1,10);
+            print(" jug2 ");
+            printBase(points2,10);
+
         }
         else{
             siguiente=((len1+1)%(11*11));
@@ -256,7 +279,13 @@ void pvpMode(){
             len2=siguiente;
             printCuadradoColor(snk2[len2][X],snk2[len2][Y],CIAN);
             PutManzana(&apple_x,&apple_y,snk2,len2,cola2);
-        }
+            cleanResult(4+2+checkPoints(points1)+4+checkPoints(points2));
+            points2++;
+            print("jug1 ");
+            printBase(points1,10);
+            print(" jug2 ");
+            printBase(points2,10);
+            }
         else{
             siguiente=((len2+1)%(11*11));
             snk2[siguiente][X]=snk2[len2][X]+direc[dir2][X];
@@ -277,14 +306,43 @@ void pvpMode(){
         last_dir=dir;
         last_dir2=dir2;
     }
+    cleanResult(4+2+checkPoints(points1)+4+checkPoints(points2));
     if(loser==1){
+        cleanResult(last_result_len);
         printColor("GANADOR: Jugador2\n",VIOLETA,0);
+        putCharColor('>',0xFFCC0F,0);
+        last_result_len=16;
     }else if(loser==2){
+        cleanResult(last_result_len);
         printColor("GANADOR: Jugador1\n",VIOLETA,0);
+        putCharColor('>',0xFFCC0F,0);
+        last_result_len=16;
     }else{
+        cleanResult(last_result_len);
         printColor("EMPATE\n",VIOLETA,0);
+        putCharColor('>',0xFFCC0F,0);
+        last_result_len=5;
     }
     
+}
+
+void cleanResult(int len){
+    for(int i=0; i<=len; i++){
+        putchar(8);
+    }
+}
+
+int checkPoints(int points){
+    if(points>=10&&points<100){
+        return 2;
+    }
+    if(points>=100){
+        return 3;
+    }
+    if(points>=0&&points<10){
+        return 1;
+    }
+    return 4;
 }
 
 int isValidPos2J(int x,int y,int snake[][2], int len, int cola,int snake2[][2], int len2, int cola2){
