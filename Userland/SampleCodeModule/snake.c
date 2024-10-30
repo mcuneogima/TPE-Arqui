@@ -25,6 +25,9 @@ int played=0;
 int last_result_len=0;
 
 
+void cleanResult(int len);
+
+int checkPoints(int points);
 
 void snake(){
     int quit=0;
@@ -51,7 +54,11 @@ void snake(){
                     i--;
                     putchar(c);
                 }
-            }else{
+            }
+            else if(c=='\t'){
+                
+            }
+            else{
                 if(i<128-1){
                     buffer[i++]=c;
                     putchar(c);

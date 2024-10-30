@@ -15,10 +15,15 @@ GLOBAL _irq05Handler
 GLOBAL _irq60Handler
 
 GLOBAL _exception0Handler
+GLOBAL _exception6Handler
+
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
+
+EXTERN getStackBase
+EXTERN printRegistros
 
 SECTION .text
 
@@ -75,12 +80,46 @@ SECTION .text
 
 
 %macro exceptionHandler 1
-	pushState
+	push rdi
+	mov [registros],rax
+    mov rax,registros
+    add rax, 8
+    mov [rax], rbx
+    add rax, 8
+    mov [rax], rcx
+    add rax, 8
+    mov [rax], rdx
+    add rax, 8
+    mov [rax], rsi
+    add rax, 8
+    mov [rax], rdi
+    add rax, 8
+    mov [rax], rbp
+    add rax, 8
+    mov [rax], rsp
+    add rax, 8
+    mov [rax], r8
+    add rax, 8
+    mov [rax], r9
+	add rax, 8
+	mov rbx, [rsp+8] ;RIP
+	mov [rax], rbx
+	add rax,8
+	mov rbx,[rsp+8*2] ;CS
+	mov [rax],rbx
+	add rax,8
+	mov rbx,[rsp+8*3] ;RFLAGS
+	mov [rax],rbx
 
+    mov rdi, registros
+	call printRegistros
+	pop rdi
 	mov rdi, %1 ; pasaje de parametro
 	call exceptionDispatcher
-
-	popState
+	call getStackBase
+	mov [rsp+8*3], rax
+	mov rax, userLand
+	mov [rsp], rax 
 	iretq
 %endmacro
 
@@ -158,12 +197,19 @@ _irq60Handler:
 _exception0Handler:
 	exceptionHandler 0
 
+_exception6Handler:
+	exceptionHandler 6
+
+
 haltcpu:
 	cli
 	hlt
 	ret
 
 
+SECTION .data
+userLand equ 0x400000
 
 SECTION .bss
 	aux resq 1
+	registros resq 13

@@ -9,6 +9,7 @@ GLOBAL devolverRegistros
 GLOBAL clockTime
 GLOBAL getMiliSecs
 GLOBAL getcharNL
+GLOBAL rompeOpcode
 ; EXTERN printRegistros
 
 section .text
@@ -80,10 +81,9 @@ setCursor:
     ret
 
 devolverRegistros:
-    mov [registros],rax
+	mov [registros],rax
     mov rax,registros
     add rax, 8
-;    mov rbx, 7Ah
     mov [rax], rbx
     add rax, 8
     mov [rax], rcx
@@ -101,6 +101,16 @@ devolverRegistros:
     mov [rax], r8
     add rax, 8
     mov [rax], r9
+	add rax, 8
+	mov rbx, [rsp+8] ;RIP
+	mov [rax], rbx
+	add rax,8
+	mov rbx,[rsp+8*2] ;CS
+	mov [rax],rbx
+	add rax,8
+	mov rbx,[rsp+8*3] ;RFLAGS
+	mov [rax],rbx
+
     mov rax, registros
     ; call printRegistros
     ret
@@ -136,5 +146,9 @@ getcharNL:
     pop rbp
     ret
 
+rompeOpcode:
+    ud2
+    ret
+
 section .bss
-registros resq 10
+registros resq 13

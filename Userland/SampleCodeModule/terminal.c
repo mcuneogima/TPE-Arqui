@@ -3,6 +3,7 @@
 #include "include/terminal.h"
 #include "include/screen.h"
 #include "include/snake.h"
+#include "include/exceptions.h"
 #include <stdint.h>
 
 #define STARTING_POSITION_X 0
@@ -23,6 +24,8 @@ void terminal(){
     // while(1){
     //     putchar(getchar());
     // }
+    refreshScreen();
+    moveCursor(STARTING_POSITION_X,STARTING_POSITION_Y);
     putCharColor('>',0xFFCC0F,0);
     
     while(1){
@@ -105,12 +108,27 @@ void terminal(){
                 clock();
                 lastRunHeight=1;
             }
+            else if(!strcmp(buffer, "romper OpCode")){
+                while(charSize>1){
+                    zoomOut();
+                    charSize--;
+                }
+                opcodeBreaker();
+            }
+            else if(!strcmp(buffer, "romper division")){
+                while(charSize>1){
+                    zoomOut();
+                    charSize--;
+                }
+                divisionBreaker();
+            }
             else{
                 print("\n\nCommand ");
                 print(buffer);
                 print(" not found\n");
                 lastRunHeight=2+1; //peor de los casos para la promt + linea cnf
             }
+
             moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
             putCharColor('>',0xFFCC0F,0);
             // previousLength=i;

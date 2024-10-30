@@ -125,6 +125,18 @@ void printRegistros(uint64_t* registros){
     print("R9: ");
     printHexa(registros[9]);
     print("\n");
+
+    print("RIP: ");
+    printHexa(registros[10]);
+    print("\n");
+
+    print("CS: ");
+    printHexa(registros[11]);
+    print("\n");
+
+    print("RFLAGS: ");
+    printHexa(registros[12]);
+    print("\n");
 }
 
 void sleepUser(int segs){

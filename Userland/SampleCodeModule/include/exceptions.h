@@ -1,0 +1,2 @@
+void opcodeBreaker();
+void divisionBreaker();
