@@ -150,7 +150,15 @@ uint64_t getMS(){
 }
 
 void clock(){
-	clockTime();
+    char * str="00:00:00";
+    getClock(str);
+    printClock(str);
+}
+
+void printClock(char * str) {
+    print("\n\n\tHour: ");
+    print(str);
+    print("\n");
 }
 
 char getcharNonLoop(){

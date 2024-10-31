@@ -109,8 +109,10 @@ void changeFontScale(uint8_t * originalBitmap, uint64_t * newBitmap) {
     uint8_t newFontHeight = y_char;
     uint8_t newFontWidth = x_char; 
 
-    // Limpiamos el nuevo bitmap para que no haya datos previos	
-    memset(newBitmap, 0, newFontHeight * sizeof(uint64_t));
+    // Limpiamos el nuevo bitmap para que no haya datos previos
+	for(int i=0 ; i<y_char ; i++) {
+		newBitmap[i]=0;
+	}
 
     // Recorremos los pixeles del bitmap original
     for (uint8_t i = 0; i < originalFontHeight; i++) {
@@ -231,8 +233,4 @@ void drawPixel(int color, int x, int y){
 
 int isValidCoordinates(int x, int y){
 	return x>=0 && x<=SCREEN_WIDTH && y>=0 && y<=SCREEN_HEIGHT;
-}
-
-void clockTime(){
-	printHour();
 }

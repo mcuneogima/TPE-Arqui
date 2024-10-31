@@ -51,7 +51,8 @@ void syscallDispatcher(uint64_t rax, ...){
             sys_setCursor(x,y);
         }
         else if(rax==46){
-            sys_clockTime();
+            char * str = va_arg(args, char *);
+            sys_getClock(str);
         }
         else if(rax==47){
             int index = va_arg(args, int);
@@ -104,8 +105,8 @@ void sys_setCursor(int x, int y){
     setCursor(x,y);
 }
 
-void sys_clockTime(){
-    clockTime();
+void sys_getClock(char * str){
+    getClockTime(str);
 }
 
 void sys_playSound(int index){

@@ -1,6 +1,5 @@
 #include "stdint.h"
 #include "font.h"
-#include "videoDriver.h"
+#include "lib.h"
 
-
-void printHour();
+void getClockTime(char * str);

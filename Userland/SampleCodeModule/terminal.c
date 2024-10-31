@@ -73,7 +73,7 @@ void terminal(){
 
             if(!strcmp(buffer,"help")){
                 help();
-                lastRunHeight=9;
+                lastRunHeight=10;
             }
             else if(!strcmp(buffer,"zoom in")){
                 if(charSize<3){

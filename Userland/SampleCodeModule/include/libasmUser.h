@@ -14,7 +14,7 @@ void screenDetails(int * width,int * height);
 
 void setCursor(int x, int y);
 
-void clockTime();
+void getClock(char * str);
 
 void playSound(int index);
 

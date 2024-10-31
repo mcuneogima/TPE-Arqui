@@ -6,7 +6,7 @@ GLOBAL draw
 GLOBAL screenDetails
 GLOBAL setCursor
 GLOBAL devolverRegistros
-GLOBAL clockTime
+GLOBAL getClock
 GLOBAL playSound
 GLOBAL getMiliSecs
 GLOBAL getcharNL
@@ -116,7 +116,7 @@ devolverRegistros:
     ; call printRegistros
     ret
 
-clockTime:
+getClock:
     push rbp
     mov rbp, rsp
     mov rax, 46

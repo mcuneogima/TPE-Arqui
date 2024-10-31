@@ -28,6 +28,8 @@ void sleepUser(int segs);
 
 void clock();
 
+void printClock(char * str);
+
 void sound(int index);
 
 char getcharNonLoop();

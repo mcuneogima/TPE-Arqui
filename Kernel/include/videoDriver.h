@@ -18,6 +18,4 @@ void setCursor(int x, int y);
 
 void getScreenDetails(int * width, int * height);
 
-void clockTime();
-
 int isValidCoordinates(int x, int y);
