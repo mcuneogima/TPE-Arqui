@@ -147,7 +147,7 @@ void clean(int ammount){
 
 
 void help(){
-    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra \n \tzoom out para achicar la letra\n \tclock para ver la hora actual\n \timprimirRegistros para mostrar los registros en pantalla\n \tsnake para jugar al juego de la viborita \n ");
+    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra. \n \tzoom out para achicar la letra.\n \tclock para ver la hora actual.\n \timprimirRegistros para mostrar los registros en pantalla.\n \tsnake para jugar al juego de la viborita. \n \texit para cerrar la terminal. \n ");
 }
 
 void refreshScreen(){
