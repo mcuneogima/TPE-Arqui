@@ -16,6 +16,8 @@ void setCursor(int x, int y);
 
 void clockTime();
 
+void playSound(int index);
+
 void getMiliSecs(uint64_t * milis);
 
 void getcharNL(char * charac);

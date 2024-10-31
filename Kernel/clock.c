@@ -44,7 +44,7 @@ static void printBase(uint64_t value, uint32_t base){
     printVideo(buffer, getColor(WHITE), getColor(BLACK));
 }
 
-// Decodifica el valor desde BCD (Binary Coded Decimal) a decimal
+// Decodifica el valor binario a decimal
 static uint64_t decode(uint64_t time) {
     return (time >> 4) * 10 + (time & 0x0F);
 }
@@ -53,19 +53,6 @@ static uint64_t decode(uint64_t time) {
 uint64_t getSeconds();
 uint64_t getMinutes();
 uint64_t getHours();
-// uint64_t getDoW();
-// uint64_t getMonth();
-// uint64_t getYear();
-
-// Falta ajuste del TIME_ZONE -> dependiendo del dia del mes del año
-// void printDay(){
-//     printVideo("\n\n\tDay: ", getColor(WHITE), getColor(BLACK));
-//     printBase(decode(getDoW()), 10);
-//     printVideo("/", getColor(WHITE), getColor(BLACK));
-//     printBase(decode(getMonth()), 10);
-//     printVideo("/", getColor(WHITE), getColor(BLACK));
-//     printBase(decode(getYear()), 10);
-// }
 
 void printHour(){
     printVideo("\n\n\tHour: ", getColor(WHITE), getColor(BLACK));
@@ -77,3 +64,5 @@ void printHour(){
     printVideo(":", getColor(WHITE), getColor(BLACK));
     printBase(decode(getSeconds()), 10);
 }
+
+

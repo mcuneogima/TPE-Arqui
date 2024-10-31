@@ -7,6 +7,7 @@ GLOBAL screenDetails
 GLOBAL setCursor
 GLOBAL devolverRegistros
 GLOBAL clockTime
+GLOBAL playSound
 GLOBAL getMiliSecs
 GLOBAL getcharNL
 GLOBAL rompeOpcode
@@ -119,6 +120,15 @@ clockTime:
     push rbp
     mov rbp, rsp
     mov rax, 46
+    int 80h
+    mov rsp, rbp
+    pop rbp
+    ret
+
+playSound:
+    push rbp 
+    mov rbp, rsp 
+    mov rax, 47
     int 80h
     mov rsp, rbp
     pop rbp

@@ -171,6 +171,10 @@ unsigned int generarNumeroAleatorio(uint64_t *seed) {
     return *seed;
 }
 
+void sound(int index){
+    playSound(index);
+}
+
 int numeroAleatorioEntre(int min, int max, uint64_t *seed) {
     unsigned int numero = generarNumeroAleatorio(seed);
     return (numero % (max - min + 1)) + min;

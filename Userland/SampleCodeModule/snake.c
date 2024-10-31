@@ -11,6 +11,12 @@
 
 #define TIME_INTERVAL 9
 
+#define APPLE 3
+#define WINNER1 4
+#define WINNER2 5
+#define LOSE 6
+#define TIE 7
+
 #define X 0
 #define Y 1
 
@@ -137,21 +143,23 @@ void sigleplayer(){
             } 
         }
         if(!isValidPos1J(snk1[len1][X]+direc[dir][X],snk1[len1][Y]+direc[dir][Y],snk1, len1, cola)){
+            sound(LOSE);
             crashed=1;
         }
         else{
             if(snk1[len1][X]+direc[dir][X]==apple_x&&snk1[len1][Y]+direc[dir][Y]==apple_y){           
+                sound(APPLE);
                 siguiente=((len1+1)%(11*11));
-                    snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
-                    snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
-                    len1=siguiente;
-                    printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
-                    PutManzana(&apple_x,&apple_y,snk1,len1,cola);
-                    cleanResult(4+checkPoints(points));
-                    points++;
-                    print("jug1 ");
-                    printBase(points,10);
-                    }
+                snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
+                snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
+                len1=siguiente;
+                printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
+                PutManzana(&apple_x,&apple_y,snk1,len1,cola);
+                cleanResult(4+checkPoints(points));
+                points++;
+                print("jug1 ");
+                printBase(points,10);
+            }
             else{
                 siguiente=((len1+1)%(11*11));
                 snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
@@ -256,6 +264,7 @@ void pvpMode(){
             } 
         }
         if(snk1[len1][X]+direc[dir][X]==apple_x&&snk1[len1][Y]+direc[dir][Y]==apple_y){           
+            sound(APPLE);
             siguiente=((len1+1)%(11*11));
             snk1[siguiente][X]=snk1[len1][X]+direc[dir][X];
             snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
@@ -280,6 +289,7 @@ void pvpMode(){
             cola=(cola+1)%(11*11);
         }
         if(snk2[len2][X]+direc[dir2][X]==apple_x&&snk2[len2][Y]+direc[dir2][Y]==apple_y){           
+            sound(APPLE);      
             siguiente=((len2+1)%(11*11));
             snk2[siguiente][X]=snk2[len2][X]+direc[dir2][X];
             snk2[siguiente][Y]=snk2[len2][Y]+direc[dir2][Y];
@@ -315,16 +325,19 @@ void pvpMode(){
     }
     cleanResult(4+2+checkPoints(points1)+4+checkPoints(points2));
     if(loser==1){
+        sound(WINNER2);
         cleanResult(last_result_len);
         printColor("GANADOR: Jugador2\n",VIOLETA,0);
         putCharColor('>',0xFFCC0F,0);
         last_result_len=16;
     }else if(loser==2){
+        sound(WINNER1);
         cleanResult(last_result_len);
         printColor("GANADOR: Jugador1\n",VIOLETA,0);
         putCharColor('>',0xFFCC0F,0);
         last_result_len=16;
     }else{
+        sound(TIE);
         cleanResult(last_result_len);
         printColor("EMPATE\n",VIOLETA,0);
         putCharColor('>',0xFFCC0F,0);

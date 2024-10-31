@@ -28,6 +28,8 @@ void sleepUser(int segs);
 
 void clock();
 
+void sound(int index);
+
 char getcharNonLoop();
 
 uint64_t getMS();

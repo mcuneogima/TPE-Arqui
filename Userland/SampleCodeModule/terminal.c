@@ -20,6 +20,7 @@ void terminal(){
     char c;
     int i=0;
     int tabs=0;
+    sound(1);
     getScreenSize(&screenWidth,&screenHeight);
     // while(1){
     //     putchar(getchar());
@@ -92,6 +93,7 @@ void terminal(){
                 lastRunHeight=13;
             }else if(!strcmp(buffer,"exit")){
                 print("Bye Bye");
+                sound(2);
                 sleepUser(20);
                 refreshScreen();
                 return;

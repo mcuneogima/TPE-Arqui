@@ -5,6 +5,8 @@
 #include <stdinout.h>
 #include <videoDriver.h>
 #include <time.h>
+#include <clock.h>
+#include <sound.h>
 #include <interrupts.h>
 
 void syscallDispatcher(uint64_t rax, ...){
@@ -50,6 +52,10 @@ void syscallDispatcher(uint64_t rax, ...){
         }
         else if(rax==46){
             sys_clockTime();
+        }
+        else if(rax==47){
+            int index = va_arg(args, int);
+            sys_playSound(index);
         }
         else if(rax==87){
             uint64_t * milis = va_arg(args, uint64_t *);
@@ -100,6 +106,10 @@ void sys_setCursor(int x, int y){
 
 void sys_clockTime(){
     clockTime();
+}
+
+void sys_playSound(int index){
+    playSoundSpeaker(index);
 }
 
 void sys_getMilis(uint64_t * milis){

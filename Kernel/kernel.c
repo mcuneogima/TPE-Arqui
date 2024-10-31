@@ -116,7 +116,6 @@ int main()
 	 /*while(1){
 	 	putChar(getChar(),getColor(WHITE),0);
 	 }*/
-
 	((EntryPoint)sampleCodeModuleAddress)();
 
 	// while(1){

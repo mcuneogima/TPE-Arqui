@@ -109,7 +109,7 @@ void changeFontScale(uint8_t * originalBitmap, uint64_t * newBitmap) {
     uint8_t newFontHeight = y_char;
     uint8_t newFontWidth = x_char; 
 
-    // Limpiamos el nuevo bitmap para que no haya datos previos
+    // Limpiamos el nuevo bitmap para que no haya datos previos	
     memset(newBitmap, 0, newFontHeight * sizeof(uint64_t));
 
     // Recorremos los pixeles del bitmap original
@@ -234,6 +234,5 @@ int isValidCoordinates(int x, int y){
 }
 
 void clockTime(){
-	// printDay();
 	printHour();
 }

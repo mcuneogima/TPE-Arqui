@@ -5,6 +5,8 @@ GLOBAL getHours
 GLOBAL getDoW
 GLOBAL getMonth
 GLOBAL getYear
+GLOBAL outb
+GLOBAL inb
 GLOBAL returnKBOutputInterrupt
 section .text
 	
@@ -119,4 +121,15 @@ getYear:
 
 	mov rsp, rbp
 	pop rbp
+	ret
+outb:
+	; Escribe un byte pasado como paramentro en el puerto
+   	mov dx, di
+    mov al, sil
+    out dx, al 
+	ret
+inb:
+	; Lee un byte pasado como paramentro del puerto
+	mov dx, di
+    in al, dx
 	ret

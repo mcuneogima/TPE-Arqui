@@ -19,3 +19,4 @@ void sys_setCursor(int x, int y);
 void sys_clockTime();
 void sys_getMilis(uint64_t * milis);
 void sys_getcharNL(char * charac);
+void sys_playSound(int index);
