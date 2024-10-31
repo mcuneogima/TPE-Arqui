@@ -149,7 +149,7 @@ void clean(int ammount){
 
 
 void help(){
-    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra. \n \tzoom out para achicar la letra.\n \tclock para ver la hora actual.\n \tshowRegisters para mostrar los registros en pantalla.\n \tsnake para jugar al juego de la viborita. \n \texit para cerrar la terminal. \n ");
+    print("\n\nBienvenido a la terminal\n Comandos disponibles: \n \tzoom in para agrandar la letra. \n \tzoom out para achicar la letra.\n \tclock para ver la hora actual.\n \tshowRegisters para mostrar los registros en pantalla.\n \tsnake para jugar al juego de la viborita. \n \texit para cerrar la terminal.\n \tromper division para probar la excepcion de dividir por cero y volver a la terminal.\n \tromper OpCode para probar la excepcion de opcode y volver a la terminal. \n ");
 }
 
 void refreshScreen(){
