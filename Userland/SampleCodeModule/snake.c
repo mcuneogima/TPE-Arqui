@@ -451,7 +451,8 @@ void PutManzana(int * apple_x, int * apple_y,int snake[][2], int length, int col
         b=2*(a+5);
         x=numeroAleatorioEntre(0,10, &a);
         y=numeroAleatorioEntre(0,10, &b);
-        for(int j=cola;j<length;j++){
+        flag=0;
+        for(int j=cola;j!=length;j++){
             j%=(11*11);
             if((x==snake[j][X])&&(y==snake[j][Y])){
                 flag=1;
