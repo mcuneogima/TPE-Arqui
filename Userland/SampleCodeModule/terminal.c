@@ -29,7 +29,8 @@ void terminal(){
     moveCursor(STARTING_POSITION_X,STARTING_POSITION_Y);
     putCharColor('>',0xFFCC0F,0);
     
-    while(1){
+    int exit = 0;
+    while(!exit){
         if((c=getchar())!='\n'){
             // if(c==0x48 || c==0xE0){        //pseudo codigo para la flechita
             //     print("paso");
@@ -96,7 +97,7 @@ void terminal(){
                 sound(2);
                 sleepUser(20);
                 refreshScreen();
-                return;
+                exit=1;
             }else if (!strcmp(buffer,"snake")){
                 while(charSize>1){
                     zoomOut();
@@ -138,7 +139,7 @@ void terminal(){
             i=0;
         }
     }
-
+    return 0;
 }
 
 void clean(int ammount){

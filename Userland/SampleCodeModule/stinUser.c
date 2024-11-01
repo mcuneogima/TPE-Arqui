@@ -81,10 +81,11 @@ void zoomOut(){
 }
 
 void imprimirRegistros(){
-	uint64_t* vector=devolverRegistros();
-    printRegistros(vector);
+    impRegs();
+	/*uint64_t* vector=devolverRegistros();
+    printRegistros(vector);*/
 }
-
+/*
 void printRegistros(uint64_t* registros){
     print("\n\nRAX: ");
     printHexa(registros[0]);
@@ -137,7 +138,7 @@ void printRegistros(uint64_t* registros){
     print("RFLAGS: ");
     printHexa(registros[12]);
     print("\n");
-}
+}*/
 
 void sleepUser(int segs){
     sleep(segs);

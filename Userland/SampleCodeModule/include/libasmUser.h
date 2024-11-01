@@ -22,6 +22,8 @@ void getMiliSecs(uint64_t * milis);
 
 void getcharNL(char * charac);
 
-uint64_t* devolverRegistros();
+void impRegs();
+
+/*uint64_t* devolverRegistros();*/
 
 void rompeOpcode();

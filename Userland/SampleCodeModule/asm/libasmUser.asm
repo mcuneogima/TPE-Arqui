@@ -5,12 +5,13 @@ GLOBAL zoom
 GLOBAL draw
 GLOBAL screenDetails
 GLOBAL setCursor
-GLOBAL devolverRegistros
+;GLOBAL devolverRegistros
 GLOBAL getClock
 GLOBAL playSound
 GLOBAL getMiliSecs
 GLOBAL getcharNL
 GLOBAL rompeOpcode
+GLOBAL impRegs
 ; EXTERN printRegistros
 
 section .text
@@ -81,41 +82,6 @@ setCursor:
     pop rbp
     ret
 
-devolverRegistros:
-	mov [registros],rax
-    mov rax,registros
-    add rax, 8
-    mov [rax], rbx
-    add rax, 8
-    mov [rax], rcx
-    add rax, 8
-    mov [rax], rdx
-    add rax, 8
-    mov [rax], rsi
-    add rax, 8
-    mov [rax], rdi
-    add rax, 8
-    mov [rax], rbp
-    add rax, 8
-    mov [rax], rsp
-    add rax, 8
-    mov [rax], r8
-    add rax, 8
-    mov [rax], r9
-	add rax, 8
-	mov rbx, [rsp+8] ;RIP
-	mov [rax], rbx
-	add rax,8
-	mov rbx,[rsp+8*2] ;CS
-	mov [rax],rbx
-	add rax,8
-	mov rbx,[rsp+8*3] ;RFLAGS
-	mov [rax],rbx
-
-    mov rax, registros
-    ; call printRegistros
-    ret
-
 getClock:
     push rbp
     mov rbp, rsp
@@ -150,6 +116,17 @@ getcharNL:
     mov rbp, rsp
 
     mov rax, 2
+    int 80h
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+impRegs:
+    push rbp
+    mov rbp,rsp
+
+    mov rax, 12 ;boca
     int 80h
 
     mov rsp, rbp

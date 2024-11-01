@@ -8,6 +8,7 @@
 #include <clock.h>
 #include <sound.h>
 #include <interrupts.h>
+#include <exceptions.h>
 
 void syscallDispatcher(uint64_t rax, ...){
     va_list args;
@@ -66,6 +67,9 @@ void syscallDispatcher(uint64_t rax, ...){
             char * charac = va_arg(args, char *);
             sys_getcharNL(charac);
         }
+        else if(rax==12){
+            sys_impRegs();
+        }
 
     va_end(args);
 }
@@ -120,4 +124,8 @@ void sys_getMilis(uint64_t * milis){
 
 void sys_getcharNL(char * charac){
     *charac=getcharNonLoop();
+}
+
+void sys_impRegs(){
+    printRegistros(get_regs());
 }

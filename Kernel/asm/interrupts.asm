@@ -17,6 +17,10 @@ GLOBAL _irq60Handler
 GLOBAL _exception0Handler
 GLOBAL _exception6Handler
 
+GLOBAL esc_pressed
+GLOBAL get_regs
+
+
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
@@ -24,6 +28,8 @@ EXTERN syscallDispatcher
 
 EXTERN getStackBase
 EXTERN printRegistros
+
+
 
 SECTION .text
 
@@ -65,7 +71,7 @@ SECTION .text
 
 %macro irqHandlerMaster 1
 	pushState
-
+	mov byte [regs_save], 0
 	mov rdi, %1 ; pasaje de parametro
 	call irqDispatcher
 
@@ -74,6 +80,38 @@ SECTION .text
 	out 20h, al
 
 	popState
+	cmp byte [regs_save], 1
+	jne .fin
+	mov [registros],rax
+    mov rax,registros
+    add rax, 8
+    mov [rax], rbx
+    add rax, 8
+    mov [rax], rcx
+    add rax, 8
+    mov [rax], rdx
+    add rax, 8
+    mov [rax], rsi
+    add rax, 8
+    mov [rax], rdi
+    add rax, 8
+    mov [rax], rbp
+    add rax, 8
+    mov [rax], rsp
+    add rax, 8
+    mov [rax], r8
+    add rax, 8
+    mov [rax], r9
+	add rax, 8
+	mov rdi, [rsp] ;RIP
+	mov [rax], rdi
+	add rax,8
+	mov rdi,[rsp+8] ;CS
+	mov [rax],rdi
+	add rax,8
+	mov rdi,[rsp+8*2] ;RFLAGS
+	mov [rax],rdi
+.fin:
 	iretq
 %endmacro
 
@@ -191,7 +229,7 @@ _irq60Handler:
 	call syscallDispatcher
 
 	popState
-	ret
+	iretq
 
 ;Zero Division Exception
 _exception0Handler:
@@ -206,6 +244,14 @@ haltcpu:
 	hlt
 	ret
 
+esc_pressed:
+	mov byte [regs_save], 1
+	ret
+
+get_regs:
+	mov rax, registros
+	ret
+
 
 SECTION .data
 userLand equ 0x400000
@@ -213,3 +259,4 @@ userLand equ 0x400000
 SECTION .bss
 	aux resq 1
 	registros resq 13
+	regs_save resb 0

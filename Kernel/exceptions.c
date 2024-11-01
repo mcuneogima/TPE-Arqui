@@ -3,6 +3,7 @@
 #include <time.h>
 #include <moduleLoader.h>
 #include <videoDriver.h>
+#include <exceptions.h>
 
 
 #define ZERO_EXCEPTION_ID 0
@@ -11,8 +12,6 @@
 static void zero_division();
 
 void invalidOpcode();
-
-void printRegistros(uint64_t * registers);
 
 typedef int (*EntryPoint)();
 

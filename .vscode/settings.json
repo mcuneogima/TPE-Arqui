@@ -5,6 +5,7 @@
         "stringuser.h": "c",
         "libasmuser.h": "c",
         "moduleloader.h": "c",
-        "interrupts.h": "c"
+        "interrupts.h": "c",
+        "exceptions.h": "c"
     }
 }

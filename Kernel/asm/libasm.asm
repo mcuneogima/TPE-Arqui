@@ -8,6 +8,9 @@ GLOBAL getYear
 GLOBAL outb
 GLOBAL inb
 GLOBAL returnKBOutputInterrupt
+
+EXTERN esc_pressed
+
 section .text
 	
 cpuVendor:
@@ -46,6 +49,10 @@ returnKBOutputInterrupt:
     je .cicle
     in al, 60h
 
+	cmp al, 1
+	jne .fin
+	call esc_pressed
+.fin:
 	mov rsp, rbp
 	pop rbp
     ret
