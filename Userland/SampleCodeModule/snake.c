@@ -386,7 +386,7 @@ int checkPoints(int points){
 }
 
 int isValidPos2J(int x,int y,int snake[][2], int len, int cola,int snake2[][2], int len2, int cola2){
-    if(x<-1||y<-1||x>10||y>10){
+    if(x<-1||y<-1||x>11||y>11){
         return 0;
     }
     for(int i=cola; i!=len+1; i++){
