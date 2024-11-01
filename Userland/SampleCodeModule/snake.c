@@ -23,6 +23,9 @@
 #define STARTING_POS_X 2
 #define STARTING_POS_Y 5
 
+#define OCCUPIED 1
+#define FREED 0
+
 int played=0;
 #define NARANJA 0xFF8000
 #define CIAN 0x0098D5
@@ -106,11 +109,13 @@ void play(int jug){
 
 void sigleplayer(){
     putchar(8);
+    int map[11][11]={0};
     int snk1[11*11][2];
     for(int i=0; i<3;i++){
         snk1[i][X]=STARTING_POS_X+i;
         snk1[i][Y]=STARTING_POS_Y;
         printCuadradoColor(STARTING_POS_X+i,STARTING_POS_Y, 0x00ff8000);
+        map[STARTING_POS_X+i][STARTING_POS_Y]=OCCUPIED;
     }
     int len1=2;
     int crashed=0;
@@ -154,7 +159,8 @@ void sigleplayer(){
                 snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
                 len1=siguiente;
                 printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
-                PutManzana(&apple_x,&apple_y,snk1,len1,cola);
+                map[snk1[len1][X]][snk1[len1][Y]]=OCCUPIED;
+                PutManzana(&apple_x,&apple_y,map);
                 cleanResult(4+checkPoints(points));
                 points++;
                 print("jug1 ");
@@ -166,7 +172,9 @@ void sigleplayer(){
                 snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
                 len1=siguiente;
                 printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
+                map[snk1[len1][X]][snk1[len1][Y]]=OCCUPIED;
                 printCuadrado(snk1[cola][X]+6,snk1[cola][Y]+4);
+                map[snk1[cola][X]][snk1[cola][Y]]=FREED;
                 cola=(cola+1)%(11*11);
             }
         }
@@ -192,10 +200,14 @@ int isValidPos1J(int x,int y,int snake[][2], int len, int cola){
 void pvpMode(){
     putchar(8);
     int snk1[11*11][2];
+    int map[11][11]={0};
+
     for(int i=0; i<3;i++){
         snk1[i][X]=STARTING_POS_X+i;
         snk1[i][Y]=STARTING_POS_Y-1;
         printCuadradoColor(STARTING_POS_X+i,STARTING_POS_Y-1, 0x00ff8000);
+        map[STARTING_POS_X+i][STARTING_POS_Y-1]=OCCUPIED;
+
     }
     int len1=2;
     int crashed=0;
@@ -209,6 +221,8 @@ void pvpMode(){
         snk2[i][X]=STARTING_POS_X+i;
         snk2[i][Y]=STARTING_POS_Y+1;
         printCuadradoColor(STARTING_POS_X+i,STARTING_POS_Y+1, CIAN);
+        map[STARTING_POS_X+i][STARTING_POS_Y+1]=OCCUPIED;
+
     }
     int len2=2;
 
@@ -270,7 +284,8 @@ void pvpMode(){
             snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
             len1=siguiente;
             printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
-            PutManzana(&apple_x,&apple_y,snk1,len1,cola);
+            map[snk1[len1][X]][snk1[len1][Y]]=OCCUPIED;
+            PutManzana(&apple_x,&apple_y,map);
             cleanResult(4+2+checkPoints(points1)+4+checkPoints(points2));
             points1++;
             print("jug1 ");
@@ -285,7 +300,9 @@ void pvpMode(){
             snk1[siguiente][Y]=snk1[len1][Y]+direc[dir][Y];
             len1=siguiente;
             printCuadradoColor(snk1[len1][X],snk1[len1][Y],0x00ff8000);
+            map[snk1[len1][X]][snk1[len1][Y]]=OCCUPIED;
             printCuadrado(snk1[cola][X]+6,snk1[cola][Y]+4);
+            map[snk1[cola][X]][snk1[cola][Y]]=FREED;
             cola=(cola+1)%(11*11);
         }
         if(snk2[len2][X]+direc[dir2][X]==apple_x&&snk2[len2][Y]+direc[dir2][Y]==apple_y){           
@@ -295,7 +312,8 @@ void pvpMode(){
             snk2[siguiente][Y]=snk2[len2][Y]+direc[dir2][Y];
             len2=siguiente;
             printCuadradoColor(snk2[len2][X],snk2[len2][Y],CIAN);
-            PutManzana(&apple_x,&apple_y,snk2,len2,cola2);
+            map[snk2[len2][X]][snk2[len2][Y]]=OCCUPIED;
+            PutManzana(&apple_x,&apple_y,map);
             cleanResult(4+2+checkPoints(points1)+4+checkPoints(points2));
             points2++;
             print("jug1 ");
@@ -309,7 +327,9 @@ void pvpMode(){
             snk2[siguiente][Y]=snk2[len2][Y]+direc[dir2][Y];
             len2=siguiente;
             printCuadradoColor(snk2[len2][X],snk2[len2][Y],CIAN);
+            map[snk2[len2][X]][snk2[len2][Y]]=OCCUPIED;
             printCuadrado(snk2[cola2][X]+6,snk2[cola2][Y]+4);
+            map[snk2[cola2][X]][snk2[cola2][Y]]=FREED;
             cola2=(cola2+1)%(11*11);
         }        
         if(!isValidPos2J(snk1[len1][X]+direc[dir][X],snk1[len1][Y]+direc[dir][Y],snk1, len1, cola,snk2,len2,cola2)){
@@ -453,7 +473,7 @@ void printAS(int col, int fila){
     }
 }
 
-void PutManzana(int * apple_x, int * apple_y,int snake[][2], int length, int cola){
+void PutManzana(int * apple_x, int * apple_y,int map[11][11]){
     uint64_t a;
     uint64_t b;
     int x;
@@ -464,14 +484,10 @@ void PutManzana(int * apple_x, int * apple_y,int snake[][2], int length, int col
         b=2*(a+5);
         x=numeroAleatorioEntre(0,10, &a);
         y=numeroAleatorioEntre(0,10, &b);
-        flag=0;
-        for(int j=cola;j!=length;j++){
-            j%=(11*11);
-            if((x==snake[j][X])&&(y==snake[j][Y])){
-                flag=1;
-            }
+        if(map[x][y]==FREED){
+            flag=1;
         }
-    }while(flag);
+    }while(!flag);
     *apple_x=x;
     *apple_y=y;
 
