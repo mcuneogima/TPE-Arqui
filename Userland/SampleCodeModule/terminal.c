@@ -4,6 +4,7 @@
 #include "include/screen.h"
 #include "include/snake.h"
 #include "include/exceptions.h"
+#include "include/libasmUser.h"
 #include <stdint.h>
 
 #define STARTING_POSITION_X 0
@@ -29,8 +30,7 @@ void terminal(){
     moveCursor(STARTING_POSITION_X,STARTING_POSITION_Y);
     putCharColor('>',0xFFCC0F,0);
     
-    int exit = 0;
-    while(!exit){
+    while(1){
         if((c=getchar())!='\n'){
             // if(c==0x48 || c==0xE0){        //pseudo codigo para la flechita
             //     print("paso");
@@ -42,8 +42,15 @@ void terminal(){
             // }else 
             if(c==8){
                 if(i>0){
-                    i--;
+                    if(buffer[i-1]=='\t'){
+                        tabs--;
+                        putchar(c);
+                        putchar(c);
+                        putchar(c);
+                    }
                     putchar(c);
+                    i--;
+
                 }
                 // moveCursor();
                 // actualizarPantalla();
@@ -56,7 +63,7 @@ void terminal(){
                 }
                 
             }else{
-                if((i+tabs*3+1)<charsPerLine[charSize-1]*2){
+                if((i+tabs*3+1)<charsPerLine[charSize-1]*2 && c!=0){
                     buffer[i++]=c;
                     putchar(c);
                 }
@@ -97,8 +104,7 @@ void terminal(){
                 sound(2);
                 sleepUser(20);
                 refreshScreen();
-                sleepUser(20000);
-                exit=1;
+                exit();
             }else if (!strcmp(buffer,"snake")){
                 while(charSize>1){
                     zoomOut();
@@ -140,7 +146,6 @@ void terminal(){
             i=0;
         }
     }
-    return 0;
 }
 
 void clean(int ammount){

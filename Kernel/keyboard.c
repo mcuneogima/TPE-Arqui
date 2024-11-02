@@ -37,7 +37,6 @@ void bufferLoader(char input){
     if(input==CAPSLOCK_P){ //veo si seria mayus
         upperCase=1-upperCase;
     }
-    char checker=input;
     if(!(release)&&!isSpecialKey(input)){  //guardo teclas apretadas no soltadas
         buffer[dim++]=input;
         dim%=BUFFER_LENGTH;
@@ -65,5 +64,5 @@ int isSpecialKey(char scancode) {
     (scancode == LALT_P)      || (scancode == RALT_P)       ||
     (scancode == CAPSLOCK_P)  || (scancode == ESC_P)        ||
     (scancode == 0x57)      || (scancode == 0x58)       ||
-    (scancode >= 0x3B);
+    (scancode >= 0x3B) || (scancode<=1);
 }

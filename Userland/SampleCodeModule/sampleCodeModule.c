@@ -16,5 +16,5 @@ int main() {
 	// 	return 0xDEADC0DE;
 	// return 0xDEADBEEF;
 	terminal();
-
+	return 0;
 }

@@ -24,6 +24,8 @@ void getcharNL(char * charac);
 
 void impRegs();
 
+void exit();
+
 /*uint64_t* devolverRegistros();*/
 
 void rompeOpcode();

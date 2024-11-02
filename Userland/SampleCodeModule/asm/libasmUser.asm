@@ -12,6 +12,7 @@ GLOBAL getMiliSecs
 GLOBAL getcharNL
 GLOBAL rompeOpcode
 GLOBAL impRegs
+GLOBAL exit
 ; EXTERN printRegistros
 
 section .text
@@ -135,6 +136,11 @@ impRegs:
 
 rompeOpcode:
     ud2
+    ret
+
+exit:
+    cli
+    hlt
     ret
 
 section .bss
