@@ -97,6 +97,7 @@ void terminal(){
                 sound(2);
                 sleepUser(20);
                 refreshScreen();
+                sleepUser(20000);
                 exit=1;
             }else if (!strcmp(buffer,"snake")){
                 while(charSize>1){
