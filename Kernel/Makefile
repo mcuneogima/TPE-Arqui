@@ -6,6 +6,7 @@ SOURCES_ASM=$(wildcard asm/*.asm)
 OBJECTS=$(SOURCES:.c=.o)
 OBJECTS_ASM=$(SOURCES_ASM:.asm=.o)
 LOADERSRC=loader.asm
+GCCFLAGS += -w
 
 LOADEROBJECT=$(LOADERSRC:.asm=.o)
 STATICLIBS=
