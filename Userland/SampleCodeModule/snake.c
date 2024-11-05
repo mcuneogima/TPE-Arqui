@@ -68,7 +68,7 @@ void snake(){
                 
             }
             else{
-                if(i<128-1){
+                if(i<128-1 && c!=0){
                     buffer[i++]=c;
                     putchar(c);
                 }
