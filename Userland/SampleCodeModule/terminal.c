@@ -36,14 +36,6 @@ void terminal(){
     
     while(1){
         if((c=getchar())!='\n'){
-            // if(c==0x48 || c==0xE0){        //pseudo codigo para la flechita
-            //     print("paso");
-            //     moveCursor(STARTING_POSITION_X, STARTING_POSITION_Y);
-            //     clean(i+1);
-            //     putCharColor('>',0xFFCC0F,0);
-            //     print(bufferComands);
-            //     i=previousLength;
-            // }else 
             if(c==8){
                 if(i>0){
                     if(buffer[i-1]=='\t'){
