@@ -18,7 +18,7 @@ int seconds_elapsed() {
 	return ticks / 18;
 }
 
-//funcion sleep en seg 
+//funcion sleep en ticks
 //termina siendo la syscall sleep
 void sleep(int time){
 	int current_ticks=ticks;

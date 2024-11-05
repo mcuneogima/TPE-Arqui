@@ -86,45 +86,7 @@ void * initializeKernelBinary()
 
 int main()
 {	
-	/*ncPrint("[Kernel Main]");
-	ncNewline();
-	ncPrint("  Sample code module at 0x");
-	ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	ncNewline();
-	ncPrint("  Calling the sample code module returned: ");
-	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	ncNewline();
-	ncNewline();
-
-	ncPrint("  Sample data module at 0x");
-	ncPrintHex((uint64_t)sampleDataModuleAddress);
-	ncNewline();
-	ncPrint("  Sample data module contents: ");
-	ncPrint((char*)sampleDataModuleAddress);
-	ncNewline();
-
-	ncPrint("[Finished]");
-	*/
-	/*for(int i=0; i<200; i++){
-		while(getChar()!=-1){
-
-		}
-		putPixel(0x00ff0000, 20+i, 20);
-
-	}*/
 	load_idt();
-	 /*while(1){
-	 	putChar(getChar(),getColor(WHITE),0);
-	 }*/
 	((EntryPoint)sampleCodeModuleAddress)();
-
-	// while(1){
-	// 	if(getChar()=='a'){
-	// 		putPixel(0xffffffff,20,20);
-	// 	}
-	// }
-	// // imprimir intro y uso de comando help
-	// //arrancar terminal
-
 	return 0;
 }

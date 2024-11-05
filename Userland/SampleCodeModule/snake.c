@@ -239,13 +239,6 @@ void pvpMode(){
     char pressed;
     int last_dir=0;
     int last_dir2=0;
-    /*for(int i=0; 1;i++){
-        if(i%10000==0){
-            printBase(getMS(),10);
-            print(" ");
-            putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);putchar(8);
-        }
-    }*/
     print("jug1 ");
     printBase(points1,10);
     print(" jug2 ");

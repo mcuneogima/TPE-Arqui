@@ -10,6 +10,10 @@
 #define STARTING_POSITION_X 0
 #define STARTING_POSITION_Y 0
 
+#define MAX_ZOOM 3
+#define MIN_ZOOM 1
+
+
 int charsPerLine[]={128,64,42};
 int charSize=1;
 int screenWidth;
@@ -84,14 +88,14 @@ void terminal(){
                 lastRunHeight=14;
             }
             else if(!strcmp(buffer,"zoom in")){
-                if(charSize<3){
+                if(charSize<MAX_ZOOM){
                     zoomIn();
                     charSize++;      
                 }
                 lastRunHeight=0;
             }
             else if(!strcmp(buffer,"zoom out")){
-                 if(charSize>1){
+                 if(charSize>MIN_ZOOM){
                     zoomOut();
                     charSize--;      
                 }
@@ -106,7 +110,7 @@ void terminal(){
                 refreshScreen();
                 exit();
             }else if (!strcmp(buffer,"snake")){
-                while(charSize>1){
+                while(charSize>MIN_ZOOM){
                     zoomOut();
                     charSize--;
                 }
@@ -119,14 +123,14 @@ void terminal(){
                 lastRunHeight=1;
             }
             else if(!strcmp(buffer, "romper OpCode")){
-                while(charSize>1){
+                while(charSize>MIN_ZOOM){
                     zoomOut();
                     charSize--;
                 }
                 opcodeBreaker();
             }
             else if(!strcmp(buffer, "romper division")){
-                while(charSize>1){
+                while(charSize>MIN_ZOOM){
                     zoomOut();
                     charSize--;
                 }

@@ -20,3 +20,4 @@ void sys_getClock(char * str);
 void sys_getMilis(uint64_t * milis);
 void sys_getcharNL(char * charac);
 void sys_playSound(int index);
+void sys_impRegs();
